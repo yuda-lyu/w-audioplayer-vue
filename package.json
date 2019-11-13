@@ -1,0 +1,105 @@
+{
+  "name": "w-audioplayer-vue",
+  "version": "1.0.22",
+  "author": "yuda-lyu(semisphere)",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build --report --dest dist2",
+    "lint": "vue-cli-service lint",
+    "test": "./node_modules/.bin/mocha --require @babel/register",
+    "deploy": "gh-pages -d docs"
+  },
+  "main": "dist/w-audioplayer-vue.umd.js",
+  "dependencies": {
+    "vue": "^2.6.10"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
+    "@babel/plugin-proposal-export-default-from": "^7.5.2",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/polyfill": "^7.6.0",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/register": "^7.6.2",
+    "@babel/runtime": "^7.6.3",
+    "@starptech/prettyhtml": "^0.10.0",
+    "@vue/cli-plugin-babel": "^4.0.5",
+    "@vue/cli-plugin-eslint": "^4.0.5",
+    "@vue/cli-service": "^4.0.5",
+    "babel-eslint": "^10.0.3",
+    "core-js": "^3.3.5",
+    "docdash": "^1.1.1",
+    "eslint": "^6.6.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^3.0.2",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-vue": "^5.2.3",
+    "gh-pages": "^2.1.1",
+    "jsdoc": "^3.6.3",
+    "jsdoc-vuejs": "^3.0.4",
+    "lodash": "^4.17.15",
+    "mocha": "^6.2.2",
+    "node-sass": "^4.13.0",
+    "rollup": "^1.26.0",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-postcss": "^2.0.3",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-terser": "^5.1.2",
+    "rollup-plugin-vue": "^4.7.2",
+    "rollup-plugin-vue-template-compiler": "^1.0.3",
+    "sass": "^1.23.2",
+    "sass-loader": "^8.0.0",
+    "vue-class-component": "^7.1.0",
+    "vue-property-decorator": "^7.3.0",
+    "vue-template-compiler": "^2.6.10",
+    "w-howler": "^1.0.1",
+    "w-package-tools": "^1.0.9",
+    "wsemi": "^1.2.45"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ],
+  "bugs": {
+    "url": "https://github.com/yuda-lyu/w-audioplayer-vue/issues"
+  },
+  "homepage": "https://github.com/yuda-lyu/w-audioplayer-vue#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuda-lyu/w-audioplayer-vue.git"
+  },
+  "keywords": [
+    "component",
+    "audio",
+    "player",
+    "howler",
+    "vue"
+  ]
+}

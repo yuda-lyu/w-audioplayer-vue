@@ -1,0 +1,518 @@
+<template>
+    <div
+        ref="dropPanel"
+        :style="`display:inline-block; position:relative; width:100%; height:100%; background-color:${colorBackground}; color:${colorText};`"
+    >
+
+        <template v-if="list.length===0">
+
+            <div
+                style="display:flex; align-items:center; justify-content:center; height:100%;"
+            >
+                <div style="text-align:center; width:200px;">
+                    <div>{{textDrop}}</div>
+                    <div style="margin-top:5px; font-size:0.8rem; opacity:0.75;">{{textDropMsg}}</div>
+                </div>
+            </div>
+
+        </template>
+
+        <template v-else>
+
+            <div
+                ref="menuPanel"
+                :class="`${isScrollTop?'':'menuShadow'}`"
+            >
+
+                <div style="font-size:0.8rem; display:flex; align-items:center; padding:10px;">
+                    <div style="white-space:nowrap; padding-right:5px; opacity:0.5;">{{textPlayItem}}:</div>
+                    <input style="background-color: transparent; border: 0px; width: 100%; color: inherit; font-family: inherit; outline: none;" type="text" spellcheck="false" :value="cPlayItem">
+                </div>
+
+                <div style="padding:0px 10px 14px 10px;">
+                    <div style="display:flex; align-items:center;">
+
+                        <div ref="barPanel" :style="`background-color:#222; padding:1px 0px; width:100%; height:${barHeight}px; border-radius:10px; cursor:pointer;`" @click="adSeek">
+                            <div :style="`background-color:#f1d895; width:${barWidth}%; height:${barHeight}px; border-radius:10px;`"></div>
+                        </div>
+
+                        <div style="padding-left:10px; text-align:center; font-size:0.7rem; letter-spacing:1px; min-height:16px;">
+                            <span>{{cPlayTime}}</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div style="padding:0px 12px 15px 12px;">
+                    <div style="display:flex; align-items:center; justify-content:space-between;">
+                        <div class="btn" style="font-size:2rem;">
+                            <i class="far fa-stop-circle" v-show="cPlayMode==='stop'"></i>
+                            <i class="far fa-pause-circle btn-active" style="cursor:pointer;" v-show="cPlayMode==='play'" @click="adPause"></i>
+                            <i class="far fa-play-circle btn-active" style="cursor:pointer;" v-show="cPlayMode==='pause'" @click="adResume"></i>
+                        </div>
+                        <div :class="`btn ${cPlayNextMode==='loop'?'btn-active':'btn-inactive'}`" :title="textTitleLoop" @click="cPlayNextMode='loop'">
+                            <i class="fas fa-redo"></i>
+                        </div>
+                        <div :class="`btn ${cPlayNextMode==='random'?'btn-active':'btn-inactive'}`" :title="textTitleRandom" @click="cPlayNextMode='random'">
+                            <i class="fas fa-random"></i>
+                        </div>
+                        <div :class="`btn btn-inactive`" :title="textTitleDeleteAll" @click="deleteAll">
+                            <i class="fas fa-trash"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div
+                class="scrollExt"
+                :style="`overflow-y:auto; height:calc(100% - 127px);`"
+                @scroll="scrollList"
+            >
+                <table style="width:100%; border-collapse:collapse;">
+                    <tbody>
+                        <tr
+                            :class="`item ${iPlayItem===kitem?'item-active':'item-inactive'}`"
+                            :key="kitem"
+                            v-for="(item,kitem) in list"
+                        >
+                            <td
+                                class="item-cell item-sepline"
+                                style="padding-left:10px; padding-right:15px;"
+                                @click="adPlay(kitem)"
+                            >
+                                {{kitem+1}}.
+                            </td>
+                            <td
+                                class="item-cell item-sepline"
+                                style="width:100%;"
+                                @click="adPlay(kitem)"
+                            >
+                                {{item.name}}
+                            </td>
+                            <td
+                                class="item-cell item-sepline"
+                                style="padding:0px 13px; cursor:auto; user-select:none;"
+                            >
+                                <i class="far fa-trash-alt" style="cursor:pointer;" @click="deleteItem(kitem)"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </template>
+
+    </div>
+</template>
+
+<script>
+import each from 'lodash/each'
+import size from 'lodash/size'
+import cloneDeep from 'lodash/cloneDeep'
+import pullAt from 'lodash/pullAt'
+import random from 'lodash/random'
+import split from 'lodash/split'
+import last from 'lodash/last'
+import domDropFiles from 'wsemi/src/domDropFiles.mjs'
+import arrhas from 'wsemi/src/arrhas.mjs'
+import WHowler from 'w-howler'
+
+/**
+ * @vue-prop {String} colorText 輸入文字顏色字串，預設'#aaa'
+ * @vue-prop {String} colorBackground 輸入背景顏色字串，預設'#323232'
+ * @vue-prop {String} textDrop 輸入顯示拖曳文字字串，預設'Drop zone'
+ * @vue-prop {String} textDropMsg 輸入顯示拖曳說明文字字串，預設'Drag your files and drop them here.'
+ * @vue-prop {String} textPlayItem 輸入現在正在播放文字字串，預設'Now'
+ * @vue-prop {String} textTitleLoop 輸入循環播放按鈕提示文字字串，預設'Loop play'
+ * @vue-prop {String} textTitleRandom 輸入隨機播放按鈕提示文字字串，預設'Random play'
+ * @vue-prop {String} textTitleDeleteAll 輸入刪除全部按鈕提示文字字串，預設'Delete all'
+ */
+export default {
+    components: {
+    },
+    props: {
+        colorText: {
+            type: String,
+            default: '#aaa',
+        },
+        colorBackground: {
+            type: String,
+            default: '#323232',
+        },
+        textDrop: {
+            type: String,
+            default: 'Drop zone', //拖曳區
+        },
+        textDropMsg: {
+            type: String,
+            default: 'Drag your files and drop them here.', //請拖曳檔案進瀏覽器內
+        },
+        textPlayItem: {
+            type: String,
+            default: 'Now', //現正播放
+        },
+        textTitleLoop: {
+            type: String,
+            default: 'Loop play', //循環播放
+        },
+        textTitleRandom: {
+            type: String,
+            default: 'Random play', //隨機播放
+        },
+        textTitleDeleteAll: {
+            type: String,
+            default: 'Delete all', //刪除全部
+        },
+    },
+    data: function() {
+        return {
+            wh: null,
+            list: [],
+            iPlayItem: null,
+            cPlayItem: '',
+            cPlayMode: 'stop',
+            cPlayNextMode: 'loop', //loop, random
+            cPlayTime: '',
+            barWidth: 0,
+            barHeight: 6,
+            isScrollTop: true,
+            codecs: ['mp3', 'mpeg', 'opus', 'ogg', 'oga', 'wav', 'aac', 'caf', 'm4a', 'mp4', 'weba', 'webm', 'dolby', 'flac'],
+        }
+    },
+    mounted: function() {
+        //console.log('mounted')
+
+        let vo = this
+
+        //domDropFiles
+        let edrop = domDropFiles(vo.$refs.dropPanel)
+        edrop.on('getFiles', vo.dropFiles)
+
+        //WHowler
+        vo.wh = new WHowler()
+        vo.wh.on('refresh', (s) => {
+            vo.adRefreshBar(s)
+        })
+        vo.wh.on('end', () => {
+            vo.adPlayNext()
+        })
+
+    },
+    computed: {
+    },
+    methods: {
+
+        adRefreshBar: function(s) {
+            //console.log('adRefreshBar', s)
+
+            let vo = this
+
+            //update barWidth, cPlayTime
+            vo.barWidth = s.prog
+            vo.cPlayTime = s.timeShow
+
+        },
+
+        adSeek: function(e) {
+            //console.log('adSeek', e)
+
+            let vo = this
+
+            //seek
+            let x = e.offsetX
+            let w = vo.$refs.barPanel.clientWidth //e.target.clientWidth
+            let r = x / w
+            vo.wh.seek(r)
+
+        },
+
+        adPlayNext: function(bDelete = false) {
+            //console.log('adPlayNext')
+
+            let vo = this
+
+            //n
+            let n = size(vo.list)
+
+            //kitem
+            let kitem
+            if (!bDelete) {
+                if (vo.cPlayNextMode === 'random') {
+                    kitem = vo.randomItemEx(vo.iPlayItem, n)
+                }
+                else {
+                    kitem = vo.iPlayItem + 1
+                    if (kitem > size(vo.list) - 1) {
+                        kitem = 0
+                    }
+                }
+            }
+            else {
+                //刪除時播放
+                if (vo.cPlayNextMode === 'random') {
+                    //可隨機自己, 因已經刪除當前播放歌曲
+                    kitem = vo.randomItem(n)
+                }
+                else {
+                    //因list變更完iPlayItem不變, 強制播放當前項目即為下1首
+                    kitem = vo.iPlayItem
+                    if (kitem > n - 1) {
+                        kitem = 0
+                    }
+                }
+            }
+
+            //adPlay force
+            vo.adPlay(kitem, true)
+
+        },
+
+        adPause: function() {
+            //console.log('adPause')
+
+            let vo = this
+
+            //pause
+            vo.wh.pause()
+            vo.cPlayMode = 'pause'
+
+        },
+
+        adResume: function() {
+            //console.log('adResume')
+
+            let vo = this
+
+            //resume
+            vo.wh.resume()
+            vo.cPlayMode = 'play'
+
+        },
+
+        adStop: function() {
+            //console.log('adStop')
+
+            let vo = this
+
+            //stop
+            vo.wh.stop()
+            vo.cPlayMode = 'stop'
+            vo.barWidth = 0
+
+        },
+
+        adPlay: function(kitem, bForce = false) {
+            //console.log('adPlay', kitem, bForce)
+
+            let vo = this
+
+            //check
+            if (vo.iPlayItem !== kitem || bForce) {
+                let item = vo.list[kitem]
+                vo.iPlayItem = kitem
+                vo.cPlayItem = item.name
+
+                //reset
+                vo.barWidth = 0
+                vo.cPlayTime = ''
+
+                //play
+                vo.wh.play(item.src, item.ext)
+                vo.cPlayMode = 'play'
+
+            }
+
+        },
+
+        deleteAll: function() {
+            //console.log('deleteAll')
+
+            let vo = this
+
+            //clear and stop
+            vo.iPlayItem = null
+            vo.cPlayItem = ''
+            vo.list = []
+            vo.adStop()
+
+        },
+
+        deleteItem: function(kitem) {
+            //console.log('deleteItem', kitem)
+
+            let vo = this
+
+            if (size(vo.list) > 1) {
+                //若清單不只1首
+
+                //刪除
+                let list = cloneDeep(vo.list)
+                pullAt(list, kitem)
+                vo.list = list
+
+                //重新播放或更新iPlayItem
+                if (vo.iPlayItem === kitem) {
+                    //若是刪除當前播放歌則播放下1首
+                    vo.adPlayNext(true)
+                }
+                else if (kitem > vo.iPlayItem) {
+                    //不用改變iPlayItem
+                }
+                else {
+                    //刪除當前播放前歌曲, iPlayItem需減1
+                    vo.iPlayItem -= 1
+                }
+
+            }
+            else {
+                //只剩1首
+
+                //刪除全部並恢復顯示拖曳視窗
+                vo.deleteAll()
+
+            }
+
+        },
+
+        randomItem: function(n) {
+            //console.log('randomItem', n)
+
+            //let vo = this
+
+            //r, 可隨機到自己
+            let r = random(n - 1)
+
+            return r
+        },
+
+        randomItemEx: function(i, n) {
+            //console.log('randomItemEx', i, n)
+
+            //let vo = this
+
+            //r, 不得隨機到自己
+            let r
+            if (n === 1) {
+                r = 0
+            }
+            else if (n === 2) {
+                if (i === 0) {
+                    r = 1
+                }
+                else {
+                    r = 0
+                }
+            }
+            else if (n > 2) {
+                r = random(n - 1)
+                while (r === i) {
+                    r = random(n - 1)
+                }
+            }
+            else {
+                r = 0
+            }
+
+            return r
+        },
+
+        scrollList: function(e) {
+            //console.log('scrollList', e)
+
+            let vo = this
+
+            //isScrollTop
+            vo.isScrollTop = e.target.scrollTop === 0
+
+        },
+
+        dropFiles: function({ files, cb }) {
+            //console.log('dropFiles', files, cb)
+
+            let vo = this
+
+            //list
+            let list = cloneDeep(vo.list)
+            each(files, function(file) {
+                let name = file.name
+                let s = split(name, '.')
+                let ext = last(s)
+                let b = arrhas(ext, vo.codecs)
+                if (b) {
+                    let src = URL.createObjectURL(file)
+                    list.push({
+                        name: file.name,
+                        ext,
+                        src,
+                    })
+                }
+            })
+            vo.list = list
+
+            //check
+            if (vo.iPlayItem === null) {
+                vo.adPlay(0)
+            }
+
+            //cb
+            cb()
+
+        },
+
+    },
+}
+</script>
+
+<style scoped>
+.menuShadow {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px -1px, rgba(0, 0, 0, 0.1) 0px 4px 5px 0px, rgba(0, 0, 0, 0.08) 0px 1px 20px 0px;
+}
+
+.btn {
+    transition: all 0.25s linear;
+    margin-right: 5px;
+}
+.btn-inactive {
+    cursor: pointer;
+}
+.btn-active {
+    color:#f1d895;
+}
+.btn:hover {
+    color:#f1d895;
+}
+
+.item {
+    transition:all 0.25s linear;
+    font-size:0.8rem;
+}
+.item-inactive {
+    cursor:pointer;
+}
+.item-active {
+    color:#f1d895;
+}
+.item-inactive:hover {
+    color:#ccc;
+}
+.item-cell {
+    padding: 15px 0px;
+    text-align: left;
+}
+.item-sepline {
+    border-bottom: 1px solid #444;
+}
+
+.scrollExt::-webkit-scrollbar {
+    width: 6px;
+}
+.scrollExt::-webkit-scrollbar-thumb {
+    background-color: #666;
+    border-radius: 5px;
+}
+.scrollExt::-webkit-scrollbar-track {
+    background-color: rgba(255,255,255,0);
+    border-radius: 5px;
+}
+</style>
