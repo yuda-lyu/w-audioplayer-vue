@@ -1,7 +1,8 @@
 <template>
     <div
         ref="dropPanel"
-        :style="`display:inline-block; position:relative; width:100%; height:100%; background-color:${colorBackground}; color:${colorText};`"
+        :style="`display:inline-block; position:relative; width:100%; height:100%; background-color:${backgroundColor};`"
+        :changeItemsAudio="changeItemsAudio"
     >
 
         <template v-if="list.length===0">
@@ -9,7 +10,7 @@
             <div
                 style="display:flex; align-items:center; justify-content:center; height:100%;"
             >
-                <div style="text-align:center; width:200px;">
+                <div :style="`text-align:center; width:200px; color:${dropTextColor};`">
                     <div>{{textDrop}}</div>
                     <div style="margin-top:5px; font-size:0.8rem; opacity:0.75;">{{textDropMsg}}</div>
                 </div>
@@ -24,20 +25,20 @@
                 :class="`${isScrollTop?'':'menuShadow'}`"
             >
 
-                <div style="font-size:0.8rem; display:flex; align-items:center; padding:10px;">
+                <div :style="`font-size:0.8rem; display:flex; align-items:center; padding:10px; color:${menuTextColor};`">
                     <div style="white-space:nowrap; padding-right:5px; opacity:0.5;">{{textPlayItem}}:</div>
-                    <input style="background-color: transparent; border: 0px; width: 100%; color: inherit; font-family: inherit; outline: none;" type="text" spellcheck="false" :value="cPlayItem">
+                    <input style="background-color:transparent; border:0px; width:100%; color:inherit; font-family:inherit; outline:none;" type="text" spellcheck="false" :value="getPlayingItemName">
                 </div>
 
                 <div style="padding:0px 10px 14px 10px;">
                     <div style="display:flex; align-items:center;">
 
-                        <div ref="barPanel" :style="`background-color:#222; padding:1px 0px; width:100%; height:${barHeight}px; border-radius:10px; cursor:pointer;`" @click="adSeek">
-                            <div :style="`background-color:#f1d895; width:${barWidth}%; height:${barHeight}px; border-radius:10px;`"></div>
+                        <div ref="barPanel" :style="`background-color:${barBackgroundColor}; padding:0px 0px; width:100%; height:${barHeight}px; border-radius:10px; cursor:pointer;`" @click="adSeek">
+                            <div :style="`background-color:${barColor}; width:${barWidth}%; height:${barHeight}px; border-radius:10px;`"></div>
                         </div>
 
                         <div style="padding-left:10px; text-align:center; font-size:0.7rem; letter-spacing:1px; min-height:16px;">
-                            <span>{{cPlayTime}}</span>
+                            <span :style="`color:${menuTextColor};`">{{cPlayTime}}</span>
                         </div>
 
                     </div>
@@ -45,19 +46,52 @@
 
                 <div style="padding:0px 12px 15px 12px;">
                     <div style="display:flex; align-items:center; justify-content:space-between;">
-                        <div class="btn" style="font-size:2rem;">
-                            <i class="far fa-stop-circle" v-show="cPlayMode==='stop'"></i>
-                            <i class="far fa-pause-circle btn-active" style="cursor:pointer;" v-show="cPlayMode==='play'" @click="adPause"></i>
-                            <i class="far fa-play-circle btn-active" style="cursor:pointer;" v-show="cPlayMode==='pause'" @click="adResume"></i>
+                        <div style="margin-right:5px; cursor:pointer;">
+                            <WIconSvg
+                                :title="textTitlePause"
+                                :path="mdiPauseCircleOutline"
+                                :size="40"
+                                :color="menuIconColorActive"
+                                :colorHover="menuIconColorActive"
+                                v-if="cPlayMode==='play'"
+                                @click.native="adPause"
+                            ></WIconSvg>
+                            <WIconSvg
+                                :title="textTitlePlay"
+                                :path="mdiPlayCircleOutline"
+                                :size="40"
+                                :color="menuIconColorActive"
+                                :colorHover="menuIconColorActive"
+                                v-if="cPlayMode==='pause' || cPlayMode==='stop'"
+                                @click.native="if(cPlayMode==='pause'){adResume()}else{adPlay(0)}"
+                            ></WIconSvg>
                         </div>
-                        <div :class="`btn ${cPlayNextMode==='loop'?'btn-active':'btn-inactive'}`" :title="textTitleLoop" @click="cPlayNextMode='loop'">
-                            <i class="fas fa-redo"></i>
+                        <div :style="`margin-right:5px; ${cPlayNextMode==='loop'?'':'cursor:pointer'}`" :title="textTitleLoop">
+                            <WIconSvg
+                                :path="mdiReplay"
+                                :size="22"
+                                :color="cPlayNextMode==='loop'?menuIconColorActive:menuIconColor"
+                                :colorHover="menuIconColorActive"
+                                @click.native="cPlayNextMode='loop'"
+                            ></WIconSvg>
                         </div>
-                        <div :class="`btn ${cPlayNextMode==='random'?'btn-active':'btn-inactive'}`" :title="textTitleRandom" @click="cPlayNextMode='random'">
-                            <i class="fas fa-random"></i>
+                        <div :style="`margin-right:5px; ${cPlayNextMode==='random'?'':'cursor:pointer'}`" :title="textTitleRandom">
+                            <WIconSvg
+                                :path="mdiShoePrint"
+                                :size="22"
+                                :color="cPlayNextMode==='random'?menuIconColorActive:menuIconColor"
+                                :colorHover="menuIconColorActive"
+                                @click.native="cPlayNextMode='random'"
+                            ></WIconSvg>
                         </div>
-                        <div :class="`btn btn-inactive`" :title="textTitleDeleteAll" @click="deleteAll">
-                            <i class="fas fa-trash"></i>
+                        <div style="margin-right:5px; cursor:pointer;" :title="textTitleDeleteAll">
+                            <WIconSvg
+                                :path="mdiDelete"
+                                :size="22"
+                                :color="menuIconColor"
+                                :colorHover="menuIconColorActive"
+                                @click.native="deleteAllItems"
+                            ></WIconSvg>
                         </div>
                     </div>
                 </div>
@@ -66,35 +100,41 @@
 
             <div
                 class="scrollExt"
-                :style="`overflow-y:auto; height:calc(100% - 127px);`"
+                :style="`overflow-y:auto; height:calc(100% - 129px);`"
                 @scroll="scrollList"
             >
                 <table style="width:100%; border-collapse:collapse;">
                     <tbody>
                         <tr
-                            :class="`item ${iPlayItem===kitem?'item-active':'item-inactive'}`"
+                            :style="`transition:all 0.25s linear; font-size:0.8rem; height:${itemHeightMin}px; ${iPlayItem===kitem?'':'cursor:pointer;'} color:${ iPlayItem===kitem?itemTextColorActive:item.mouseIn?itemTextColorHover:itemTextColor }`"
                             :key="kitem"
                             v-for="(item,kitem) in list"
+                            @mouseenter="item.mouseIn=true"
+                            @mouseleave="item.mouseIn=false"
                         >
                             <td
-                                class="item-cell item-sepline"
-                                style="padding-left:10px; padding-right:15px;"
+                                :style="`border-bottom:1px solid ${itemSeplineColor}; padding-left:15px; padding-right:15px; text-align:left;`"
                                 @click="adPlay(kitem)"
                             >
                                 {{kitem+1}}.
                             </td>
                             <td
-                                class="item-cell item-sepline"
-                                style="width:100%;"
+                                :style="`border-bottom:1px solid ${itemSeplineColor}; padding:5px 0px; width:100%; text-align:left;`"
                                 @click="adPlay(kitem)"
                             >
                                 {{item.name}}
                             </td>
                             <td
-                                class="item-cell item-sepline"
-                                style="padding:0px 13px; cursor:auto; user-select:none;"
+                                :style="`border-bottom:1px solid ${itemSeplineColor}; padding-left:13px; padding-right:13px; user-select:none;`"
                             >
-                                <i class="far fa-trash-alt" style="cursor:pointer;" @click="deleteItem(kitem)"></i>
+                                <WIconSvg
+                                    style="cursor:pointer;"
+                                    :path="mdiTrashCanOutline"
+                                    :size="17"
+                                    :color="`${iPlayItem===kitem?itemTextColorActive:itemTextColor}`"
+                                    :colorHover="`${iPlayItem===kitem?itemTextColorActive:itemTextColorHover}`"
+                                    @click.native="deleteItem(kitem)"
+                                ></WIconSvg>
                             </td>
                         </tr>
                     </tbody>
@@ -107,8 +147,11 @@
 </template>
 
 <script>
+import { mdiPlayCircleOutline, mdiPauseCircleOutline, mdiStopCircleOutline, mdiTrashCanOutline, mdiDelete, mdiShoePrint, mdiReplay } from '@mdi/js'
 import each from 'lodash/each'
 import size from 'lodash/size'
+import isEqual from 'lodash/isEqual'
+import concat from 'lodash/concat'
 import cloneDeep from 'lodash/cloneDeep'
 import pullAt from 'lodash/pullAt'
 import random from 'lodash/random'
@@ -117,28 +160,98 @@ import last from 'lodash/last'
 import domDropFiles from 'wsemi/src/domDropFiles.mjs'
 import arrhas from 'wsemi/src/arrhas.mjs'
 import WHowler from 'w-howler'
+import WIconSvg from './WIconSvg.vue'
 
 /**
- * @vue-prop {String} colorText 輸入文字顏色字串，預設'#aaa'
- * @vue-prop {String} colorBackground 輸入背景顏色字串，預設'#323232'
- * @vue-prop {String} textDrop 輸入顯示拖曳文字字串，預設'Drop zone'
- * @vue-prop {String} textDropMsg 輸入顯示拖曳說明文字字串，預設'Drag your files and drop them here.'
- * @vue-prop {String} textPlayItem 輸入現在正在播放文字字串，預設'Now'
- * @vue-prop {String} textTitleLoop 輸入循環播放按鈕提示文字字串，預設'Loop play'
- * @vue-prop {String} textTitleRandom 輸入隨機播放按鈕提示文字字串，預設'Random play'
- * @vue-prop {String} textTitleDeleteAll 輸入刪除全部按鈕提示文字字串，預設'Delete all'
+ * @vue-prop {Array} [itemsAudio=[]] 輸入音頻物件陣列，每個物件需有name與url兩欄位，分別提供檔名(含副檔名)與網址，可不給予由使用者拖曳檔案進來組件進行播放
+ * @vue-prop {String} [dropTextColor='#aaa'] 輸入無播放視窗之提示拖曳文字顏色字串，預設'#aaa'
+ * @vue-prop {String} [backgroundColor='#323232'] 輸入背景顏色字串，預設'#323232'
+ * @vue-prop {Number} [barHeight=6] 輸入播放進度條高度浮點數，預設6
+ * @vue-prop {String} [barColor='#f1d895'] 輸入播放進度條顏色字串，預設'#f1d895'
+ * @vue-prop {String} [barBackgroundColor='#222'] 輸入播放進度條背景顏色字串，預設'#222'
+ * @vue-prop {String} [menuTextColor='#aaa'] 輸入上方選單區文字顏色字串，預設'#aaa'
+ * @vue-prop {String} [menuIconColor='#aaa'] 輸入上方選單區按鈕顏色字串，預設'#aaa'
+ * @vue-prop {String} [menuIconColorActive='#f1d895'] 輸入上方選單區按鈕點擊狀態的顏色字串，預設'#f1d895'
+ * @vue-prop {String} [itemTextColor='#aaa'] 輸入播放項目區歌曲文字顏色字串，預設'#aaa'
+ * @vue-prop {String} [itemTextColorActive='#f1d895'] 輸入播放項目區播放中的歌曲文字顏色字串，預設'#f1d895'
+ * @vue-prop {String} [itemTextColorHover='#ccc'] 輸入播放項目區歌曲文字Hover時顏色字串，預設'#ccc'
+ * @vue-prop {Number} [itemHeightMin=48] 輸入播放項目區歌曲項目最小高度浮點數，預設48
+ * @vue-prop {String} [itemSeplineColor='#444'] 輸入播放項目區歌曲下分隔條顏色字串，預設'#444'
+ * @vue-prop {String} [scrollBarColor='#666'] 輸入播放項目區右側捲軸顏色字串，預設'#666'
+ * @vue-prop {String} [textDrop='Drop zone'] 輸入顯示拖曳文字字串，預設'Drop zone'
+ * @vue-prop {String} [textDropMsg='Drag your files and drop them here.'] 輸入顯示拖曳說明文字字串，預設'Drag your files and drop them here.'
+ * @vue-prop {String} [textPlayItem='Now'] 輸入現在正在播放文字字串，預設'Now'
+ * @vue-prop {String} [textWaitUserPlay='It's time to play...'] 輸入等待播放文字字串，預設'It's time to play...'
+ * @vue-prop {String} [textTitlePlay='Play'] 輸入播放按鈕提示文字字串，預設'Play'
+ * @vue-prop {String} [textTitlePause='Pause'] 輸入暫停按鈕提示文字字串，預設'Pause'
+ * @vue-prop {String} [textTitleLoop='Loop play'] 輸入循環播放按鈕提示文字字串，預設'Loop play'
+ * @vue-prop {String} [textTitleRandom='Random play'] 輸入隨機播放按鈕提示文字字串，預設'Random play'
+ * @vue-prop {String} [textTitleDeleteAll='Delete all'] 輸入刪除全部按鈕提示文字字串，預設'Delete all'
  */
 export default {
     components: {
+        WIconSvg,
     },
     props: {
-        colorText: {
+        itemsAudio: {
+            type: Array,
+            default: () => [],
+        },
+        dropTextColor: {
             type: String,
             default: '#aaa',
         },
-        colorBackground: {
+        backgroundColor: {
             type: String,
             default: '#323232',
+        },
+        barHeight: {
+            type: Number,
+            default: 6,
+        },
+        barColor: {
+            type: String,
+            default: '#f1d895',
+        },
+        barBackgroundColor: {
+            type: String,
+            default: '#222',
+        },
+        menuTextColor: {
+            type: String,
+            default: '#aaa',
+        },
+        menuIconColor: {
+            type: String,
+            default: '#aaa',
+        },
+        menuIconColorActive: {
+            type: String,
+            default: '#f1d895',
+        },
+        itemTextColor: {
+            type: String,
+            default: '#aaa',
+        },
+        itemTextColorActive: {
+            type: String,
+            default: '#f1d895',
+        },
+        itemTextColorHover: {
+            type: String,
+            default: '#ccc',
+        },
+        itemHeightMin: {
+            type: Number,
+            default: 48,
+        },
+        itemSeplineColor: {
+            type: String,
+            default: '#444',
+        },
+        scrollBarColor: {
+            type: String,
+            default: '#666',
         },
         textDrop: {
             type: String,
@@ -151,6 +264,18 @@ export default {
         textPlayItem: {
             type: String,
             default: 'Now', //現正播放
+        },
+        textWaitUserPlay: {
+            type: String,
+            default: `It's time to play...`, //等待您開始播放
+        },
+        textTitlePlay: {
+            type: String,
+            default: 'Play', //播放
+        },
+        textTitlePause: {
+            type: String,
+            default: 'Pause', //暫停
         },
         textTitleLoop: {
             type: String,
@@ -167,7 +292,17 @@ export default {
     },
     data: function() {
         return {
+
+            mdiPlayCircleOutline,
+            mdiPauseCircleOutline,
+            mdiStopCircleOutline,
+            mdiTrashCanOutline,
+            mdiDelete,
+            mdiShoePrint,
+            mdiReplay,
+
             wh: null,
+            itemsAudioTemp: [], //若有外部傳入播放項目, 進行暫存藉以判斷是否重複觸發change事件
             list: [],
             iPlayItem: null,
             cPlayItem: '',
@@ -175,9 +310,9 @@ export default {
             cPlayNextMode: 'loop', //loop, random
             cPlayTime: '',
             barWidth: 0,
-            barHeight: 6,
             isScrollTop: true,
             codecs: ['mp3', 'mpeg', 'opus', 'ogg', 'oga', 'wav', 'aac', 'caf', 'm4a', 'mp4', 'weba', 'webm', 'dolby', 'flac'],
+
         }
     },
     mounted: function() {
@@ -199,12 +334,65 @@ export default {
         })
 
     },
+    beforeDestroy: function() {
+        //console.log('beforeDestroy')
+
+        let vo = this
+
+        //stop
+        vo.wh.stop()
+
+        //deleteAllItems
+        vo.deleteAllItems()
+
+    },
     computed: {
+
+        changeItemsAudio: function() {
+            //console.log('computed changeItemsAudio')
+
+            let vo = this
+
+            //items
+            let items = cloneDeep(vo.itemsAudio)
+
+            //check eff
+            if (size(vo.itemsAudio) === 0) {
+                return ''
+            }
+
+            //check equal, 切換組件時可能被vue自動快取導致不會重新mounted(機制複雜), 故導致外部傳入的播放項目會多次觸發change事件, 使得播放項目會重複載入
+            if (!isEqual(vo.itemsAudio, vo.itemsAudioTemp)) {
+
+                //addItems, 其內改用timer脫勾避免被vue做記憶體偵測, 因清空list而重新觸發本change
+                vo.addItems(items, 'urls')
+
+                //save as
+                vo.itemsAudioTemp = cloneDeep(vo.itemsAudio)
+
+            }
+
+            return ''
+        },
+
+        getPlayingItemName: function() {
+            //console.log('computed getPlayingItemName')
+
+            let vo = this
+
+            let r = vo.textWaitUserPlay
+            if (vo.cPlayItem !== '') {
+                r = vo.cPlayItem
+            }
+
+            return r
+        },
+
     },
     methods: {
 
         adRefreshBar: function(s) {
-            //console.log('adRefreshBar', s)
+            //console.log('methods adRefreshBar', s)
 
             let vo = this
 
@@ -215,7 +403,7 @@ export default {
         },
 
         adSeek: function(e) {
-            //console.log('adSeek', e)
+            //console.log('methods adSeek', e)
 
             let vo = this
 
@@ -228,7 +416,7 @@ export default {
         },
 
         adPlayNext: function(bDelete = false) {
-            //console.log('adPlayNext')
+            //console.log('methods adPlayNext')
 
             let vo = this
 
@@ -269,7 +457,7 @@ export default {
         },
 
         adPause: function() {
-            //console.log('adPause')
+            //console.log('methods adPause')
 
             let vo = this
 
@@ -280,7 +468,7 @@ export default {
         },
 
         adResume: function() {
-            //console.log('adResume')
+            //console.log('methods adResume')
 
             let vo = this
 
@@ -290,20 +478,20 @@ export default {
 
         },
 
-        adStop: function() {
-            //console.log('adStop')
+        adReset: function() {
+            //console.log('methods adReset')
 
             let vo = this
 
-            //stop
-            vo.wh.stop()
+            //use pause to stop
+            vo.wh.pause()
             vo.cPlayMode = 'stop'
             vo.barWidth = 0
 
         },
 
         adPlay: function(kitem, bForce = false) {
-            //console.log('adPlay', kitem, bForce)
+            //console.log('methods adPlay', kitem, bForce)
 
             let vo = this
 
@@ -325,21 +513,23 @@ export default {
 
         },
 
-        deleteAll: function() {
-            //console.log('deleteAll')
+        deleteAllItems: function() {
+            //console.log('methods deleteAllItems')
 
             let vo = this
 
-            //clear and stop
+            //adReset
+            vo.adReset()
+
+            //clear
             vo.iPlayItem = null
             vo.cPlayItem = ''
             vo.list = []
-            vo.adStop()
 
         },
 
         deleteItem: function(kitem) {
-            //console.log('deleteItem', kitem)
+            //console.log('methods deleteItem', kitem)
 
             let vo = this
 
@@ -368,15 +558,15 @@ export default {
             else {
                 //只剩1首
 
-                //刪除全部並恢復顯示拖曳視窗
-                vo.deleteAll()
+                //直接用刪除全部並恢復顯示拖曳視窗
+                vo.deleteAllItems()
 
             }
 
         },
 
         randomItem: function(n) {
-            //console.log('randomItem', n)
+            //console.log('methods randomItem', n)
 
             //let vo = this
 
@@ -387,7 +577,7 @@ export default {
         },
 
         randomItemEx: function(i, n) {
-            //console.log('randomItemEx', i, n)
+            //console.log('methods randomItemEx', i, n)
 
             //let vo = this
 
@@ -418,7 +608,7 @@ export default {
         },
 
         scrollList: function(e) {
-            //console.log('scrollList', e)
+            //console.log('methods scrollList', e)
 
             let vo = this
 
@@ -427,13 +617,12 @@ export default {
 
         },
 
-        dropFiles: function({ files, cb }) {
-            //console.log('dropFiles', files, cb)
+        addFiles: function (files) {
+            //console.log('methods addFiles', files)
 
             let vo = this
 
-            //list
-            let list = cloneDeep(vo.list)
+            let list = []
             each(files, function(file) {
                 let name = file.name
                 let s = split(name, '.')
@@ -445,15 +634,73 @@ export default {
                         name: file.name,
                         ext,
                         src,
+                        mouseIn: false,
                     })
                 }
             })
-            vo.list = list
 
-            //check
-            if (vo.iPlayItem === null) {
-                vo.adPlay(0)
-            }
+            return list
+        },
+
+        addUrls: function (items) {
+            //console.log('methods addUrls', items)
+
+            let vo = this
+
+            let list = []
+            each(items, function(item) {
+                let name = item.name
+                let s = split(name, '.')
+                let ext = last(s)
+                let b = arrhas(ext, vo.codecs)
+                if (b) {
+                    list.push({
+                        name,
+                        ext,
+                        src: item.url,
+                        mouseIn: false,
+                    })
+                }
+            })
+
+            return list
+        },
+
+        addItems: function (items, mode = 'files', autoPlay = false) {
+            //console.log('methods addItems', items, mode)
+
+            let vo = this
+
+            setTimeout(() => {
+
+                //list
+                let list = cloneDeep(vo.list)
+                if (mode === 'files') {
+                    list = concat(list, vo.addFiles(items))
+                }
+                else {
+                    list = concat(list, vo.addUrls(items))
+                }
+                vo.list = list
+
+                //check
+                if (autoPlay) {
+                    if (vo.iPlayItem === null) {
+                        vo.adPlay(0)
+                    }
+                }
+
+            }, 1)
+
+        },
+
+        dropFiles: function({ files, cb }) {
+            //console.log('methods dropFiles', files, cb)
+
+            let vo = this
+
+            //addItems, 改用timer會直接往後呼叫cb
+            vo.addItems(files, 'files', true)
 
             //cb
             cb()
@@ -466,42 +713,7 @@ export default {
 
 <style scoped>
 .menuShadow {
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px -1px, rgba(0, 0, 0, 0.1) 0px 4px 5px 0px, rgba(0, 0, 0, 0.08) 0px 1px 20px 0px;
-}
-
-.btn {
-    transition: all 0.25s linear;
-    margin-right: 5px;
-}
-.btn-inactive {
-    cursor: pointer;
-}
-.btn-active {
-    color:#f1d895;
-}
-.btn:hover {
-    color:#f1d895;
-}
-
-.item {
-    transition:all 0.25s linear;
-    font-size:0.8rem;
-}
-.item-inactive {
-    cursor:pointer;
-}
-.item-active {
-    color:#f1d895;
-}
-.item-inactive:hover {
-    color:#ccc;
-}
-.item-cell {
-    padding: 15px 0px;
-    text-align: left;
-}
-.item-sepline {
-    border-bottom: 1px solid #444;
+    box-shadow: 0px 10px 5px -3px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px #000, 0px 0px 0px 0px #000;
 }
 
 .scrollExt::-webkit-scrollbar {
