@@ -99,7 +99,7 @@
             </div>
 
             <WOverlayScrollbarsVue
-                style="max-height:calc(100% - 129px);"
+                style="height:100%; max-height:calc(100% - 129px);"
                 :scrollYBarColor="scrollBarColor"
                 @scroll="scrollList"
             >
@@ -162,7 +162,6 @@ import arrhas from 'wsemi/src/arrhas.mjs'
 import WHowler from 'w-howler'
 import WIconSvg from './WIconSvg.vue'
 import 'overlayscrollbars/css/OverlayScrollbars.css'
-//import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import WOverlayScrollbarsVue from './WOverlayScrollbarsVue.vue'
 
 
