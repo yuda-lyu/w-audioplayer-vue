@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-tw">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>w-audioplayer-vue</title>
+
+    <!-- vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+
+    <!-- app -->
+    <script src="app.umd.js?gEJZYAXBW8qEVxY5rAEPmdU6Sh4y5Zjt"></script>
+
+</head>
+<body style="font-family:'Microsoft JhengHei','Avenir','Helvetica'; padding:0px; margin:0px;">
+
+    <div id="app">
+        <w-app></w-app>
+    </div>
+
+    <script>
+
+        //install app
+        Vue.component('w-app',app)
+
+        //initialize
+        new Vue({
+            el: '#app',
+        })
+
+    </script>
+
+</body>
+</html>
