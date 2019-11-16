@@ -152,7 +152,7 @@ export default {
         let items = names.map((name) => {
             return {
                 name,
-                url: encodeURI(`/test-mp3/${name}`)
+                url: encodeURI(`./test-mp3/${name}`)
             }
         })
 
