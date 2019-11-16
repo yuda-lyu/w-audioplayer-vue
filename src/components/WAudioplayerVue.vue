@@ -98,9 +98,9 @@
 
             </div>
 
-            <div
-                class="scrollExt"
-                :style="`overflow-y:auto; height:calc(100% - 129px);`"
+            <WOverlayScrollbarsVue
+                style="max-height:calc(100% - 129px);"
+                :scrollYBarColor="scrollBarColor"
                 @scroll="scrollList"
             >
                 <table style="width:100%; border-collapse:collapse;">
@@ -125,7 +125,7 @@
                                 {{item.name}}
                             </td>
                             <td
-                                :style="`border-bottom:1px solid ${itemSeplineColor}; padding-left:13px; padding-right:13px; user-select:none;`"
+                                :style="`border-bottom:1px solid ${itemSeplineColor}; padding-left:13px; padding-right:19px; user-select:none;`"
                             >
                                 <WIconSvg
                                     style="cursor:pointer;"
@@ -139,7 +139,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </WOverlayScrollbarsVue>
 
         </template>
 
@@ -161,6 +161,10 @@ import domDropFiles from 'wsemi/src/domDropFiles.mjs'
 import arrhas from 'wsemi/src/arrhas.mjs'
 import WHowler from 'w-howler'
 import WIconSvg from './WIconSvg.vue'
+import 'overlayscrollbars/css/OverlayScrollbars.css'
+//import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
+import WOverlayScrollbarsVue from './WOverlayScrollbarsVue.vue'
+
 
 /**
  * @vue-prop {Array} [itemsAudio=[]] 輸入音頻物件陣列，每個物件需有name與url兩欄位，分別提供檔名(含副檔名)與網址，可不給予由使用者拖曳檔案進來組件進行播放
@@ -177,7 +181,7 @@ import WIconSvg from './WIconSvg.vue'
  * @vue-prop {String} [itemTextColorHover='#ccc'] 輸入播放項目區歌曲文字Hover時顏色字串，預設'#ccc'
  * @vue-prop {Number} [itemHeightMin=48] 輸入播放項目區歌曲項目最小高度浮點數，預設48
  * @vue-prop {String} [itemSeplineColor='#444'] 輸入播放項目區歌曲下分隔條顏色字串，預設'#444'
- * @vue-prop {String} [scrollBarColor='#666'] 輸入播放項目區右側捲軸顏色字串，預設'#666'
+ * @vue-prop {String} [scrollBarColor='rgba(200,200,200,0.25)'] 輸入播放項目區右側捲軸顏色字串，預設'rgba(200,200,200,0.25)'
  * @vue-prop {String} [textDrop='Drop zone'] 輸入顯示拖曳文字字串，預設'Drop zone'
  * @vue-prop {String} [textDropMsg='Drag your files and drop them here.'] 輸入顯示拖曳說明文字字串，預設'Drag your files and drop them here.'
  * @vue-prop {String} [textPlayItem='Now'] 輸入現在正在播放文字字串，預設'Now'
@@ -191,6 +195,7 @@ import WIconSvg from './WIconSvg.vue'
 export default {
     components: {
         WIconSvg,
+        WOverlayScrollbarsVue,
     },
     props: {
         itemsAudio: {
@@ -251,7 +256,7 @@ export default {
         },
         scrollBarColor: {
             type: String,
-            default: '#666',
+            default: 'rgba(200,200,200,0.25)',
         },
         textDrop: {
             type: String,
@@ -714,17 +719,5 @@ export default {
 <style scoped>
 .menuShadow {
     box-shadow: 0px 10px 5px -3px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px #000, 0px 0px 0px 0px #000;
-}
-
-.scrollExt::-webkit-scrollbar {
-    width: 6px;
-}
-.scrollExt::-webkit-scrollbar-thumb {
-    background-color: #666;
-    border-radius: 5px;
-}
-.scrollExt::-webkit-scrollbar-track {
-    background-color: rgba(255,255,255,0);
-    border-radius: 5px;
 }
 </style>

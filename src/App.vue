@@ -80,6 +80,7 @@
                             :itemTextColorHover="WAudioplayerVue.case3.itemTextColorHover"
                             :itemHeightMin="WAudioplayerVue.case3.itemHeightMin"
                             :itemSeplineColor="WAudioplayerVue.case3.itemSeplineColor"
+                            :scrollBarColor="WAudioplayerVue.case3.scrollBarColor"
                         ></WAudioplayerVue>
                     </div>
 
@@ -100,6 +101,7 @@
                             :itemTextColorHover="WAudioplayerVue.case4.itemTextColorHover"
                             :itemHeightMin="WAudioplayerVue.case4.itemHeightMin"
                             :itemSeplineColor="WAudioplayerVue.case4.itemSeplineColor"
+                            :scrollBarColor="WAudioplayerVue.case4.scrollBarColor"
                         ></WAudioplayerVue>
                     </div>
 
@@ -230,6 +232,7 @@ export default {
                     itemTextColorHover: `#aaa`,
                     itemHeightMin: 50,
                     itemSeplineColor: `#333`,
+                    scrollBarColor: `rgba(255,255,255,0.1)`,
                 },
                 'case4': {
                     dropTextColor: `#444`,
@@ -246,6 +249,7 @@ export default {
                     itemTextColorHover: `rgba(${c3RGB},0.7)`,
                     itemHeightMin: 40,
                     itemSeplineColor: `#dadada`,
+                    scrollBarColor: `rgba(0,0,0,0.1)`,
                 },
             }
         }

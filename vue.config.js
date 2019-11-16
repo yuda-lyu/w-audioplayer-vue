@@ -3,7 +3,7 @@ module.exports = {
     devServer: {
         proxy: {
             '/test-mp3': {
-                target: 'http://localhost:8081',
+                target: 'http://localhost:9000',
                 pathRewrite: {
                     '^/test-mp3': '/' 
                 },
