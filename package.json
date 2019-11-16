@@ -1,6 +1,6 @@
 {
   "name": "w-audioplayer-vue",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "yuda-lyu(semisphere)",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -12,8 +12,6 @@
   "main": "dist/w-audioplayer-vue.umd.js",
   "dependencies": {
     "overlayscrollbars": "^1.10.0",
-    "overlayscrollbars-vue": "^0.2.0",
-    "remove": "^0.1.5",
     "vue": "^2.6.10"
   },
   "devDependencies": {
