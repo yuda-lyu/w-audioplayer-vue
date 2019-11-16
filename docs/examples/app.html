@@ -1,15 +1,4 @@
-import fs from 'fs'
-import _ from 'lodash'
-import w from 'wsemi'
-import getFiles from 'w-package-tools/src/getFiles.mjs'
 
-
-let fdSrcMP3 = './test-mp3/'
-let fdTar = './docs/examples/'
-let fdTarMP3 = fdTar + fdSrcMP3
-
-
-let h = `
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-tw">
 <head>
@@ -21,7 +10,7 @@ let h = `
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 
     <!-- app -->
-    <script src="app.umd.js?{rnd}"></script>
+    <script src="app.umd.js?gEJZYAXBW8qEVxY5rAEPmdU6Sh4y5Zjt"></script>
 
 </head>
 <body style="font-family:'Microsoft JhengHei','Avenir','Helvetica'; padding:0px; margin:0px;">
@@ -44,33 +33,3 @@ let h = `
 
 </body>
 </html>
-`
-
-
-function main() {
-    //產生app.html
-
-    //mkdirSync
-    if (!fs.existsSync(fdTar)) {
-        fs.mkdirSync(fdTar)
-    }
-    if (!fs.existsSync(fdTarMP3)) {
-        fs.mkdirSync(fdTarMP3)
-    }
-
-    //getFiles
-    let fns = getFiles(fdSrcMP3)
-
-    //copy
-    _.each(fns, (fn) => {
-        fs.copyFileSync(fdSrcMP3 + fn, fdTarMP3 + fn)
-    })
-
-    //app.html
-    let happ = h.replace('{rnd}', w.genID())
-    fs.writeFileSync(fdTar + 'app.html', happ, 'utf8')
-
-}
-main()
-
-

@@ -10,13 +10,9 @@ rollupFiles({
     fdSrc,
     fdTar,
     nameDistType: 'kebabCase',
-    globals: { //用rollup很難編譯ag-grid-community與ag-grid-vue故由外部引入
-        'ag-grid-community': 'agGrid',
-        'ag-grid-vue': 'ag-grid-vue',
+    globals: {
     },
     external: [
-        'ag-grid-community',
-        'ag-grid-vue',
     ],
 })
 
