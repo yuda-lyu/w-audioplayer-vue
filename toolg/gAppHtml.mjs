@@ -61,7 +61,7 @@ function main() {
     //getFiles
     let fns = getFiles(fdSrcMP3)
 
-    //copy
+    //copy mp3
     _.each(fns, (fn) => {
         fs.copyFileSync(fdSrcMP3 + fn, fdTarMP3 + fn)
     })

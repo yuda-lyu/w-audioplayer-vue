@@ -14,7 +14,8 @@ To view documentation or get support, visit [docs](https://yuda-lyu.github.io/w-
 
 ## Example
 To view some examples for more understanding, visit examples:
-> **default:** [ex-default.html](https://yuda-lyu.github.io/w-audioplayer-vue/examples/ex-default.html) [[source code](https://github.com/yuda-lyu/w-audioplayer-vue/blob/master/docs/examples/ex-default.html)]
+
+> **all examples:** [web](https://yuda-lyu.github.io/w-audioplayer-vue/examples/app.html) [[source code](https://github.com/yuda-lyu/w-audioplayer-vue/blob/master/docs/examples/app.html)]
 
 ## Installation
 ### Using npm(ES6 module):
