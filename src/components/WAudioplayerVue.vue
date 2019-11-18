@@ -1,8 +1,10 @@
 <template>
-    <div
-        ref="dropPanel"
+    <WDropfiles
         :style="`display:inline-block; position:relative; width:100%; height:100%; background-color:${backgroundColor};`"
+        :borderRadius="0"
+        :borderWidth="0"
         :changeItemsAudio="changeItemsAudio"
+        @get-files="dropFiles"
     >
 
         <template v-if="list.length===0">
@@ -143,7 +145,7 @@
 
         </template>
 
-    </div>
+    </WDropfiles>
 </template>
 
 <script>
@@ -157,10 +159,10 @@ import pullAt from 'lodash/pullAt'
 import random from 'lodash/random'
 import split from 'lodash/split'
 import last from 'lodash/last'
-import domDropFiles from 'wsemi/src/domDropFiles.mjs'
 import arrhas from 'wsemi/src/arrhas.mjs'
 import WHowler from 'w-howler'
-import WIconSvg from './WIconSvg.vue'
+import WDropfiles from 'w-component-vue/src/components/WDropfiles.vue'
+import WIconSvg from 'w-component-vue/src/components/WIconSvg.vue'
 import 'overlayscrollbars/css/OverlayScrollbars.css'
 import WOverlayScrollbarsVue from './WOverlayScrollbarsVue.vue'
 
@@ -193,6 +195,7 @@ import WOverlayScrollbarsVue from './WOverlayScrollbarsVue.vue'
  */
 export default {
     components: {
+        WDropfiles,
         WIconSvg,
         WOverlayScrollbarsVue,
     },
@@ -323,10 +326,6 @@ export default {
         //console.log('mounted')
 
         let vo = this
-
-        //domDropFiles
-        let edrop = domDropFiles(vo.$refs.dropPanel)
-        edrop.on('getFiles', vo.dropFiles)
 
         //WHowler
         vo.wh = new WHowler()
@@ -698,16 +697,13 @@ export default {
 
         },
 
-        dropFiles: function({ files, cb }) {
-            //console.log('methods dropFiles', files, cb)
+        dropFiles: function(files) {
+            //console.log('methods dropFiles', files)
 
             let vo = this
 
             //addItems, 改用timer會直接往後呼叫cb
             vo.addItems(files, 'files', true)
-
-            //cb
-            cb()
 
         },
 
