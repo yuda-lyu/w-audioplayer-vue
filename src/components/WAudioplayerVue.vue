@@ -100,9 +100,10 @@
 
             </div>
 
-            <WOverlayScrollbarsVue
+            <WScrollyPanel
                 style="height:100%; max-height:calc(100% - 129px);"
-                :scrollYBarColor="scrollBarColor"
+                :_scrollYBarColor="scrollBarColor"
+                :barColor="scrollBarColor"
                 @scroll="scrollList"
             >
                 <table style="width:100%; border-collapse:collapse;">
@@ -141,7 +142,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </WOverlayScrollbarsVue>
+            </WScrollyPanel>
 
         </template>
 
@@ -163,8 +164,9 @@ import arrhas from 'wsemi/src/arrhas.mjs'
 import WHowler from 'w-howler'
 import WDropfiles from 'w-component-vue/src/components/WDropfiles.vue'
 import WIconSvg from 'w-component-vue/src/components/WIconSvg.vue'
-import 'overlayscrollbars/css/OverlayScrollbars.css'
-import WOverlayScrollbarsVue from './WOverlayScrollbarsVue.vue'
+import WScrollyPanel from 'w-component-vue/src/components/WScrollyPanel.vue'
+// import 'overlayscrollbars/css/OverlayScrollbars.css'
+// import WOverlayScrollbarsVue from './WOverlayScrollbarsVue.vue'
 
 
 /**
@@ -197,7 +199,7 @@ export default {
     components: {
         WDropfiles,
         WIconSvg,
-        WOverlayScrollbarsVue,
+        WScrollyPanel,
     },
     props: {
         itemsAudio: {
@@ -616,7 +618,7 @@ export default {
             let vo = this
 
             //isScrollTop
-            vo.isScrollTop = e.target.scrollTop === 0
+            vo.isScrollTop = e.r === 0
 
         },
 
