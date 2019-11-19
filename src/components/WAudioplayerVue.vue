@@ -396,6 +396,11 @@ export default {
     },
     methods: {
 
+        tempAsync: async function() {
+            //因rollup沒法偵測npm組件使用async, 打包後檔案會無法提供regeneratorRuntime
+            //此處強制使用async function, 使rollup能給予regeneratorRuntime
+        },
+
         adRefreshBar: function(s) {
             //console.log('methods adRefreshBar', s)
 

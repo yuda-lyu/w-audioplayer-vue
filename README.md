@@ -47,7 +47,7 @@ Vue.component('w-audioplayer-vue', WAudioplayerVue)
 ```
 [Necessary] Add script for w-audioplayer-vue.
 ```alias
-<script src="https://cdn.jsdelivr.net/npm/w-audioplayer-vue@1.0.7/dist/w-audioplayer-vue.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/w-audioplayer-vue@1.0.8/dist/w-audioplayer-vue.umd.js"></script>
 ```
 Directly use:
 ```alias
