@@ -1,6 +1,6 @@
 {
   "name": "w-audioplayer-vue",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "author": "yuda-lyu(semisphere)",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -60,7 +60,7 @@
     "vue-class-component": "^7.1.0",
     "vue-property-decorator": "^8.3.0",
     "vue-template-compiler": "^2.6.10",
-    "w-component-vue": "^1.2.33",
+    "w-component-vue": "^1.2.35",
     "w-howler": "^1.0.3",
     "w-package-tools": "^1.0.11",
     "wsemi": "^1.2.47"
