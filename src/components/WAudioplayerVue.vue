@@ -70,11 +70,20 @@
                         </div>
                         <div :style="`margin-right:5px; ${cPlayNextMode==='loop'?'':'cursor:pointer'}`" :title="textTitleLoop">
                             <WIconSvg
-                                :path="mdiReplay"
+                                :path="mdiSortDescending"
                                 :size="22"
                                 :color="cPlayNextMode==='loop'?menuIconColorActive:menuIconColor"
                                 :colorHover="menuIconColorActive"
                                 @click.native="cPlayNextMode='loop'"
+                            ></WIconSvg>
+                        </div>
+                        <div :style="`margin-right:5px; ${cPlayNextMode==='repeat'?'':'cursor:pointer'}`" :title="textTitleRepeat">
+                            <WIconSvg
+                                :path="mdiReplay"
+                                :size="22"
+                                :color="cPlayNextMode==='repeat'?menuIconColorActive:menuIconColor"
+                                :colorHover="menuIconColorActive"
+                                @click.native="cPlayNextMode='repeat'"
                             ></WIconSvg>
                         </div>
                         <div :style="`margin-right:5px; ${cPlayNextMode==='random'?'':'cursor:pointer'}`" :title="textTitleRandom">
@@ -150,7 +159,7 @@
 </template>
 
 <script>
-import { mdiPlayCircleOutline, mdiPauseCircleOutline, mdiStopCircleOutline, mdiTrashCanOutline, mdiDelete, mdiShoePrint, mdiReplay } from '@mdi/js'
+import { mdiPlayCircleOutline, mdiPauseCircleOutline, mdiStopCircleOutline, mdiTrashCanOutline, mdiDelete, mdiShoePrint, mdiSortDescending, mdiReplay } from '@mdi/js'
 import each from 'lodash/each'
 import size from 'lodash/size'
 import isEqual from 'lodash/isEqual'
@@ -192,6 +201,7 @@ import WScrollyPanel from 'w-component-vue/src/components/WScrollyPanel.vue'
  * @vue-prop {String} [textTitlePlay='Play'] 輸入播放按鈕提示文字字串，預設'Play'
  * @vue-prop {String} [textTitlePause='Pause'] 輸入暫停按鈕提示文字字串，預設'Pause'
  * @vue-prop {String} [textTitleLoop='Loop play'] 輸入循環播放按鈕提示文字字串，預設'Loop play'
+ * @vue-prop {String} [textTitleRepeat='Repeat play'] 輸入單曲播放按鈕提示文字字串，預設'Repeat play'
  * @vue-prop {String} [textTitleRandom='Random play'] 輸入隨機播放按鈕提示文字字串，預設'Random play'
  * @vue-prop {String} [textTitleDeleteAll='Delete all'] 輸入刪除全部按鈕提示文字字串，預設'Delete all'
  */
@@ -290,6 +300,10 @@ export default {
             type: String,
             default: 'Loop play', //循環播放
         },
+        textTitleRepeat: {
+            type: String,
+            default: 'Repeat play', //單曲播放
+        },
         textTitleRandom: {
             type: String,
             default: 'Random play', //隨機播放
@@ -308,6 +322,7 @@ export default {
             mdiTrashCanOutline,
             mdiDelete,
             mdiShoePrint,
+            mdiSortDescending,
             mdiReplay,
 
             wh: null,
@@ -316,7 +331,7 @@ export default {
             iPlayItem: null,
             cPlayItem: '',
             cPlayMode: 'stop',
-            cPlayNextMode: 'loop', //loop, random
+            cPlayNextMode: 'loop', //loop, repeat, random
             cPlayTime: '',
             barWidth: 0,
             isScrollTop: true,
@@ -438,6 +453,9 @@ export default {
             if (!bDelete) {
                 if (vo.cPlayNextMode === 'random') {
                     kitem = vo.randomItemEx(vo.iPlayItem, n)
+                }
+                else if (vo.cPlayNextMode === 'repeat') {
+                    kitem = vo.iPlayItem
                 }
                 else {
                     kitem = vo.iPlayItem + 1

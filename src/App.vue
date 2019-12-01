@@ -46,6 +46,7 @@
                             :textTitlePlay="WAudioplayerVue.case2.textTitlePlay"
                             :textTitlePause="WAudioplayerVue.case2.textTitlePause"
                             :textTitleLoop="WAudioplayerVue.case2.textTitleLoop"
+                            :textTitleRepeat="WAudioplayerVue.case2.textTitleRepeat"
                             :textTitleRandom="WAudioplayerVue.case2.textTitleRandom"
                             :textTitleDeleteAll="WAudioplayerVue.case2.textTitleDeleteAll"
                         ></WAudioplayerVue>
@@ -214,6 +215,7 @@ export default {
                     textTitlePlay: '播放',
                     textTitlePause: '暫停',
                     textTitleLoop: '循環播放',
+                    textTitleRepeat: '單曲播放',
                     textTitleRandom: '隨機播放',
                     textTitleDeleteAll: '刪除全部',
                 },
