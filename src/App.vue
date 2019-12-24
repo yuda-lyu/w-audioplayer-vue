@@ -9,6 +9,19 @@
         </template>
 
 
+        <div style="position:relative;" v-if="false">
+            <div style="position:absolute; left:-100000px; top:-100000px;">
+                <iframe id="ifmAutoplay" src="https://cdn.jsdelivr.net/npm/w-demores@1.0.2/res/audio/_silence.mp3" type="audio/mpeg" allow="autoplay"></iframe>
+                <pre>
+                    autoPlay可預設為true, 原本為false
+                    chrome禁用自動播放: https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
+                    可用iframe置於網頁最前優先播放超短音頻, 使其他音頻能自動播放: https://olafwempe.com/how-to-enable-audio-and-video-autoplay-with-sound-in-chrome-and-other-browsers-in-2019/
+                    此法又被chrome偵測到而失效，需先由使用者點擊第一次播放後才正常(2019/12/24)
+                </pre>
+            </div>
+        </div>
+
+
         <div style="display:flex; align-items:flex-start; justify-content:flex-start;">
 
             <div :style="`height:100vh; color:${nowMenuItem.color}; background-color:${nowMenuItem.backgroundColor};`">
@@ -126,6 +139,8 @@ export default {
     },
     data: function() {
 
+        let urlMp3 = '//cdn.jsdelivr.net/npm/w-demores@1.0.2/res/audio/'
+
         let names = [
             'Ailee_暫別我的愛(demo).mp3',
             'Aimer_Ninelie(demo).mp3',
@@ -153,7 +168,7 @@ export default {
         let items = names.map((name) => {
             return {
                 name,
-                url: encodeURI(`./test-mp3/${name}`)
+                url: encodeURI(`${urlMp3}${name}`)
             }
         })
 
@@ -200,6 +215,7 @@ export default {
         ]
 
         return {
+            'urlMp3': urlMp3,
             'nowMenuItem': menuItems[0],
             'menuItems': menuItems,
             'WAudioplayerVue': {

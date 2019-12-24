@@ -1,12 +1,8 @@
 import fs from 'fs'
-import _ from 'lodash'
 import w from 'wsemi'
-import getFiles from 'w-package-tools/src/getFiles.mjs'
 
 
-let fdSrcMP3 = './test-mp3/'
 let fdTar = './docs/examples/'
-let fdTarMP3 = fdTar + fdSrcMP3
 
 
 let h = `
@@ -54,17 +50,6 @@ function main() {
     if (!fs.existsSync(fdTar)) {
         fs.mkdirSync(fdTar)
     }
-    if (!fs.existsSync(fdTarMP3)) {
-        fs.mkdirSync(fdTarMP3)
-    }
-
-    //getFiles
-    let fns = getFiles(fdSrcMP3)
-
-    //copy mp3
-    _.each(fns, (fn) => {
-        fs.copyFileSync(fdSrcMP3 + fn, fdTarMP3 + fn)
-    })
 
     //app.html
     let happ = h.replace('{rnd}', w.genID())

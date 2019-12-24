@@ -174,8 +174,6 @@ import WHowler from 'w-howler'
 import WDropfiles from 'w-component-vue/src/components/WDropfiles.vue'
 import WIconSvg from 'w-component-vue/src/components/WIconSvg.vue'
 import WScrollyPanel from 'w-component-vue/src/components/WScrollyPanel.vue'
-// import 'overlayscrollbars/css/OverlayScrollbars.css'
-// import WOverlayScrollbarsVue from './WOverlayScrollbarsVue.vue'
 
 
 /**
@@ -696,6 +694,11 @@ export default {
 
         addItems: function (items, mode = 'files', autoPlay = false) {
             //console.log('methods addItems', items, mode)
+
+            //autoPlay可預設為true, 原本為false
+            //chrome禁用自動播放: https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
+            //可用iframe置於網頁最前優先播放超短音頻, 使其他音頻能自動播放: https://olafwempe.com/how-to-enable-audio-and-video-autoplay-with-sound-in-chrome-and-other-browsers-in-2019/
+            //此法又被chrome偵測到而失效，需先由使用者點擊第一次播放後才正常(2019/12/24)
 
             let vo = this
 
