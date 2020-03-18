@@ -1,18 +1,4 @@
-import rollupFiles from 'w-package-tools/src/rollupFiles.mjs'
+import rollupVueToHtml from 'w-package-tools/src/rollupVueToHtml.mjs'
 
 
-let fdSrc = './src'
-let fdTar = './docs/examples/'
-
-
-rollupFiles({
-    fns: 'App.vue',
-    fdSrc,
-    fdTar,
-    nameDistType: 'kebabCase',
-    globals: {
-    },
-    external: [
-    ],
-})
-
+rollupVueToHtml('./src/App.vue', './docs/examples/app.html')

@@ -109,7 +109,7 @@
 
             </div>
 
-            <WScrollyPanel
+            <WPanelScrolly
                 style="height:100%; max-height:calc(100% - 129px);"
                 :_scrollYBarColor="scrollBarColor"
                 :barColor="scrollBarColor"
@@ -151,7 +151,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </WScrollyPanel>
+            </WPanelScrolly>
 
         </template>
 
@@ -173,7 +173,7 @@ import arrhas from 'wsemi/src/arrhas.mjs'
 import WHowler from 'w-howler'
 import WDropfiles from 'w-component-vue/src/components/WDropfiles.vue'
 import WIconSvg from 'w-component-vue/src/components/WIconSvg.vue'
-import WScrollyPanel from 'w-component-vue/src/components/WScrollyPanel.vue'
+import WPanelScrolly from 'w-component-vue/src/components/WPanelScrolly.vue'
 
 
 /**
@@ -207,7 +207,7 @@ export default {
     components: {
         WDropfiles,
         WIconSvg,
-        WScrollyPanel,
+        WPanelScrolly,
     },
     props: {
         itemsAudio: {

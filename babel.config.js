@@ -1,4 +1,4 @@
-{
+module.exports = { 
     "presets": [
         ["@babel/preset-env", {
             "useBuiltIns": "entry",
@@ -9,4 +9,4 @@
         "@babel/plugin-proposal-export-default-from",
         "@babel/plugin-transform-runtime"
     ]
-}
+}; 

@@ -139,7 +139,7 @@ export default {
     },
     data: function() {
 
-        let urlMp3 = '//cdn.jsdelivr.net/npm/w-demores@1.0.2/res/audio/'
+        let urlMp3 = 'https://cdn.jsdelivr.net/npm/w-demores@1.0.2/res/audio/'
 
         let names = [
             'Ailee_暫別我的愛(demo).mp3',
