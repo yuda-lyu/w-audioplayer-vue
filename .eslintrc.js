@@ -4,7 +4,7 @@ module.exports = {
         "es6": true,
         "mocha": true
     },
-    "extends": ["plugin:vue/essential", "standard"],
+    "extends": ["plugin:vue/base", "plugin:vue/essential", "standard"],
     "plugins": [
         "vue"
     ],
@@ -12,7 +12,9 @@ module.exports = {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
+    "parser": "vue-eslint-parser",
     "parserOptions": {
+        "parser": "babel-eslint",
         "ecmaVersion": 2019,
         "sourceType": "module",
     },
@@ -44,5 +46,8 @@ module.exports = {
         'quotes': ['error', 'single', { 'allowTemplateLiterals': true }],
         'prefer-promise-reject-errors': 'off',
         'no-unused-vars': ['error', { 'args': 'none', 'ignoreRestSiblings': true, 'argsIgnorePattern': '^_' }],
+        'node/no-callback-literal': 'off',
+        'prefer-regex-literals': 'off',
+        'array-callback-return': 'off',
     }
 };

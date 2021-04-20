@@ -21,24 +21,10 @@ let h = `
     <title>example for {{casename}}</title>
 
     <!-- vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
-
-    <!-- ag-grid-community, do not include css -->
-    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
-    <link rel="stylesheet" _href="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/styles/ag-grid.css">
-    <link rel="stylesheet" _href="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/styles/ag-theme-balham.css">
-
-    <!-- ag-grid-vue -->
-    <script src="https://cdn.jsdelivr.net/npm/ag-grid-vue/dist/ag-grid-vue.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.min.js"></script>
 
     <!-- w-audioplayer-vue -->
     <script src="../dist/w-audioplayer-vue.umd.js"></script>
-
-    <!-- w-jsonview-tree -->
-    <script src="https://cdn.jsdelivr.net/npm/w-jsonview-tree/dist/w-jsonview-tree.umd.js"></script>
-    <script>
-        let jv=window['w-jsonview-tree']
-    </script>
 
     <style>
         .item {

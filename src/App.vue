@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div>
 
 
         <template v-if="!isNarrow">
@@ -41,7 +41,7 @@
 
             <div style="width:100%;">
 
-                <div :style="`height:100vh; display:flex; align-items:center; justify-content:center; overflow-x:auto; overflow-y:auto; background-color:${nowMenuItem.backgroundColor};`">
+                <div :style="`height:100vh; display:flex; align-items:center; justify-content:center; overflow:hidden; background-color:${nowMenuItem.backgroundColor};`">
 
                     <div class="panelShadow" style="width:400px; height:600px;" v-if="nowMenuItem.name==='basic'">
                         <WAudioplayerVue
@@ -95,6 +95,7 @@
                             :itemHeightMin="WAudioplayerVue.case3.itemHeightMin"
                             :itemSeplineColor="WAudioplayerVue.case3.itemSeplineColor"
                             :scrollBarColor="WAudioplayerVue.case3.scrollBarColor"
+                            :scrollBarColorHover="WAudioplayerVue.case3.scrollBarColorHover"
                         ></WAudioplayerVue>
                     </div>
 
@@ -116,6 +117,7 @@
                             :itemHeightMin="WAudioplayerVue.case4.itemHeightMin"
                             :itemSeplineColor="WAudioplayerVue.case4.itemSeplineColor"
                             :scrollBarColor="WAudioplayerVue.case4.scrollBarColor"
+                            :scrollBarColorHover="WAudioplayerVue.case4.scrollBarColorHover"
                         ></WAudioplayerVue>
                     </div>
 
@@ -251,6 +253,7 @@ export default {
                     itemHeightMin: 50,
                     itemSeplineColor: `#333`,
                     scrollBarColor: `rgba(255,255,255,0.1)`,
+                    scrollBarColorHover: `rgba(255,255,255,0.2)`,
                 },
                 'case4': {
                     dropTextColor: `#444`,
@@ -267,7 +270,8 @@ export default {
                     itemTextColorHover: `rgba(${c3RGB},0.7)`,
                     itemHeightMin: 40,
                     itemSeplineColor: `#dadada`,
-                    scrollBarColor: `rgba(0,0,0,0.1)`,
+                    scrollBarColor: `rgba(0,0,0,0)`,
+                    scrollBarColorHover: `rgba(0,0,0,0.15)`,
                 },
             }
         }

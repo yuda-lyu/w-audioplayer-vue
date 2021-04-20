@@ -9,9 +9,7 @@
 
         <template v-if="list.length===0">
 
-            <div
-                style="display:flex; align-items:center; justify-content:center; height:100%;"
-            >
+            <div style="display:flex; align-items:center; justify-content:center; height:100%;">
                 <div :style="`text-align:center; width:200px; color:${dropTextColor};`">
                     <div>{{textDrop}}</div>
                     <div style="margin-top:5px; font-size:0.8rem; opacity:0.75;">{{textDropMsg}}</div>
@@ -110,9 +108,10 @@
             </div>
 
             <WPanelScrolly
-                style="height:100%; max-height:calc(100% - 129px);"
-                :_scrollYBarColor="scrollBarColor"
+                ref="wps"
+                style="height:calc(100% - 129px);"
                 :barColor="scrollBarColor"
+                :barColorHover="scrollBarColorHover"
                 @scroll="scrollList"
             >
                 <table style="width:100%; border-collapse:collapse;">
@@ -191,7 +190,8 @@ import WPanelScrolly from 'w-component-vue/src/components/WPanelScrolly.vue'
  * @vue-prop {String} [itemTextColorHover='#ccc'] 輸入播放項目區歌曲文字Hover時顏色字串，預設'#ccc'
  * @vue-prop {Number} [itemHeightMin=48] 輸入播放項目區歌曲項目最小高度浮點數，預設48
  * @vue-prop {String} [itemSeplineColor='#444'] 輸入播放項目區歌曲下分隔條顏色字串，預設'#444'
- * @vue-prop {String} [scrollBarColor='rgba(200,200,200,0.25)'] 輸入播放項目區右側捲軸顏色字串，預設'rgba(200,200,200,0.25)'
+ * @vue-prop {String} [scrollBarColor='rgba(200,200,200,0.2)'] 輸入播放項目區右側捲軸顏色字串，預設'rgba(200,200,200,0.2)'
+ * @vue-prop {String} [scrollBarColorHover='rgba(200,200,200,0.3)'] 輸入播放項目區右側捲軸顏色字串，預設'rgba(200,200,200,0.3)'
  * @vue-prop {String} [textDrop='Drop zone'] 輸入顯示拖曳文字字串，預設'Drop zone'
  * @vue-prop {String} [textDropMsg='Drag your files and drop them here.'] 輸入顯示拖曳說明文字字串，預設'Drag your files and drop them here.'
  * @vue-prop {String} [textPlayItem='Now'] 輸入現在正在播放文字字串，預設'Now'
@@ -268,7 +268,11 @@ export default {
         },
         scrollBarColor: {
             type: String,
-            default: 'rgba(200,200,200,0.25)',
+            default: 'rgba(200,200,200,0.2)',
+        },
+        scrollBarColorHover: {
+            type: String,
+            default: 'rgba(200,200,200,0.3)',
         },
         textDrop: {
             type: String,

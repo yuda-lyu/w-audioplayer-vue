@@ -19,7 +19,7 @@ To view some examples for more understanding, visit examples:
 
 ## Installation
 ### Using npm(ES6 module):
-> **Note:** w-audioplayer-vue depends on `w-howler` .
+> **Note:** w-audioplayer-vue is mainly dependent on `w-howler` .
 ```alias
 npm i w-audioplayer-vue
 ```
@@ -35,15 +35,15 @@ Vue.component('w-audioplayer-vue', WAudioplayerVue)
 ```
 
 ### In a browser(UMD module):
-> **Note:** w-audioplayer-vue depends on `vue`.
+> **Note:** w-audioplayer-vue is mainly dependent on `vue`.
 
 [Necessary] Add script for vue.
 ```alias
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.min.js"></script>
 ```
 [Necessary] Add script for w-audioplayer-vue.
 ```alias
-<script src="https://cdn.jsdelivr.net/npm/w-audioplayer-vue@1.0.13/dist/w-audioplayer-vue.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/w-audioplayer-vue@2.0.1/dist/w-audioplayer-vue.umd.js"></script>
 ```
 Directly use:
 ```alias
