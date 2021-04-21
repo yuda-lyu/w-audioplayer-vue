@@ -9,121 +9,92 @@
         </template>
 
 
-        <div style="position:relative;" v-if="false">
-            <div style="position:absolute; left:-100000px; top:-100000px;">
-                <iframe id="ifmAutoplay" src="https://cdn.jsdelivr.net/npm/w-demores@1.0.2/res/audio/_silence.mp3" type="audio/mpeg" allow="autoplay"></iframe>
-                <pre>
-                    autoPlay可預設為true, 原本為false
-                    chrome禁用自動播放: https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
-                    可用iframe置於網頁最前優先播放超短音頻, 使其他音頻能自動播放: https://olafwempe.com/how-to-enable-audio-and-video-autoplay-with-sound-in-chrome-and-other-browsers-in-2019/
-                    此法又被chrome偵測到而失效，需先由使用者點擊第一次播放後才正常(2019/12/24)
-                </pre>
-            </div>
+        <div v-if="false">
+            autoPlay可預設為true, 原本為false
+            chrome禁用自動播放: https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
+            可用iframe置於網頁最前優先播放超短音頻, 使其他音頻能自動播放: https://olafwempe.com/how-to-enable-audio-and-video-autoplay-with-sound-in-chrome-and-other-browsers-in-2019/
+            此法又被chrome偵測到而失效，需先由使用者點擊第一次播放後才正常(2019/12/24)
         </div>
 
 
-        <div style="display:flex; align-items:flex-start; justify-content:flex-start;">
+        <div style="width:100%; height:100vh; display:flex; align-items:flex-start; justify-content:flex-start;">
 
-            <div :style="`height:100vh; color:${nowMenuItem.color}; background-color:${nowMenuItem.backgroundColor};`">
+            <div :style="`width:160px; height:100vh; border-right:1px solid rgba(150,150,150,0.5); background:${nowMenu.backgroundColor};`">
                 <div
-                    :class="`menuItem menuItem-${nowMenuItem.classMode} menuItem-${nowMenuItem.classMode}-${nowMenuItem===menu?'active':'inactive'}`"
+                    class="menuBasic"
+                    style="position:relative;"
                     :key="kmenu"
-                    v-for="(menu,kmenu) in menuItems"
-                    @click="nowMenuItem=menu"
+                    v-for="(menu,kmenu) in menus"
+                    @click="nowMenu=menu;menu.isActive=true;"
+                    @mouseenter="menu.isHover=true"
+                    @mouseleave="menu.isHover=false"
                 >
-                    {{menu.name}}
-                </div>
-            </div>
 
-            <div :style="`height:100vh; width:1px; background-color:${nowMenuItem.backgroundColor};`">
-                <div style="height:100%; background-color:rgba(150,150,150,0.5);"></div>
-            </div>
+                    <div :class="`menuTrans menuText-${nowMenu.classMode} menuText-${nowMenu.classMode}-${nowMenu===menu?'active':'inactive'} menuBox menuBorder-${nowMenu.classMode} menuBorder-${nowMenu.classMode}-${nowMenu===menu?'active':'inactive'}`">
 
-            <div style="width:100%;">
+                        <div>{{menu.name}}</div>
 
-                <div :style="`height:100vh; display:flex; align-items:center; justify-content:center; overflow:hidden; background-color:${nowMenuItem.backgroundColor};`">
+                        <a
+                            class="menuTrans"
+                            :style="`position:absolute; top:5px; right:10px; z-index:1;`"
+                            title="show example"
+                            :href="exam(menu.key)"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <div
+                                class="menuTrans"
+                                :style="`opacity:${menu.isHover?1:0}; transform-origin:center; transform:translateY(${menu.isHover?0:3}px);`"
+                            >
+                                <div style="transform-origin:center; transform:scale(0.8) translateX(1px);">➤</div>
+                            </div>
+                        </a>
 
-                    <div class="panelShadow" style="width:400px; height:600px;" v-if="nowMenuItem.name==='basic'">
-                        <WAudioplayerVue
-                            :itemsAudio="WAudioplayerVue.itemsAudio"
-                        ></WAudioplayerVue>
-                    </div>
+                        <a
+                            class="menuTrans"
+                            :style="`position:absolute; top:22px; right:10px; z-index:1;`"
+                            title="show codde"
+                            :href="code(menu.key)"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <div
+                                class="menuTrans"
+                                :style="`opacity:${menu.isHover?1:0}; transform:translateY(${menu.isHover?0:-3}px);`"
+                            >
+                                ☪
+                            </div>
+                        </a>
 
-                    <div class="panelShadow" style="width:400px; height:600px;" v-if="nowMenuItem.name==='language'">
-                        <WAudioplayerVue
-                            :itemsAudio="WAudioplayerVue.itemsAudio"
-                            :textDrop="WAudioplayerVue.case2.textDrop"
-                            :textDropMsg="WAudioplayerVue.case2.textDropMsg"
-                            :textPlayItem="WAudioplayerVue.case2.textPlayItem"
-                            :textWaitUserPlay="WAudioplayerVue.case2.textWaitUserPlay"
-                            :textTitlePlay="WAudioplayerVue.case2.textTitlePlay"
-                            :textTitlePause="WAudioplayerVue.case2.textTitlePause"
-                            :textTitleLoop="WAudioplayerVue.case2.textTitleLoop"
-                            :textTitleRepeat="WAudioplayerVue.case2.textTitleRepeat"
-                            :textTitleRandom="WAudioplayerVue.case2.textTitleRandom"
-                            :textTitleDeleteAll="WAudioplayerVue.case2.textTitleDeleteAll"
-                        ></WAudioplayerVue>
-                    </div>
-
-                    <div class="panelShadow" style="width:300px; height:700px;" v-if="nowMenuItem.name==='custom size'">
-                        <WAudioplayerVue
-                            :itemsAudio="WAudioplayerVue.itemsAudio"
-                        ></WAudioplayerVue>
-                    </div>
-
-                    <div class="panelShadow" style="width:100%; height:100%;" v-if="nowMenuItem.name==='full size'">
-                        <WAudioplayerVue
-                            :itemsAudio="WAudioplayerVue.itemsAudio"
-                        ></WAudioplayerVue>
-                    </div>
-
-                    <div class="panelShadow" style="width:400px; height:600px;" v-if="nowMenuItem.name==='dark cyan'">
-                        <WAudioplayerVue
-                            :itemsAudio="WAudioplayerVue.itemsAudio"
-                            :dropTextColor="WAudioplayerVue.case3.dropTextColor"
-                            :menuTextColor="WAudioplayerVue.case3.menuTextColor"
-                            :textColor="WAudioplayerVue.case3.textColor"
-                            :backgroundColor="WAudioplayerVue.case3.backgroundColor"
-                            :barHeight="WAudioplayerVue.case3.barHeight"
-                            :barColor="WAudioplayerVue.case3.barColor"
-                            :barBackgroundColor="WAudioplayerVue.case3.barBackgroundColor"
-                            :menuIconColor="WAudioplayerVue.case3.menuIconColor"
-                            :menuIconColorActive="WAudioplayerVue.case3.menuIconColorActive"
-                            :itemTextColor="WAudioplayerVue.case3.itemTextColor"
-                            :itemTextColorActive="WAudioplayerVue.case3.itemTextColorActive"
-                            :itemTextColorHover="WAudioplayerVue.case3.itemTextColorHover"
-                            :itemHeightMin="WAudioplayerVue.case3.itemHeightMin"
-                            :itemSeplineColor="WAudioplayerVue.case3.itemSeplineColor"
-                            :scrollBarColor="WAudioplayerVue.case3.scrollBarColor"
-                            :scrollBarColorHover="WAudioplayerVue.case3.scrollBarColorHover"
-                        ></WAudioplayerVue>
-                    </div>
-
-                    <div class="panelShadow" style="width:400px; height:600px;" v-if="nowMenuItem.name==='light pink'">
-                        <WAudioplayerVue
-                            :itemsAudio="WAudioplayerVue.itemsAudio"
-                            :dropTextColor="WAudioplayerVue.case4.dropTextColor"
-                            :menuTextColor="WAudioplayerVue.case4.menuTextColor"
-                            :textColor="WAudioplayerVue.case4.textColor"
-                            :backgroundColor="WAudioplayerVue.case4.backgroundColor"
-                            :barHeight="WAudioplayerVue.case4.barHeight"
-                            :barColor="WAudioplayerVue.case4.barColor"
-                            :barBackgroundColor="WAudioplayerVue.case4.barBackgroundColor"
-                            :menuIconColor="WAudioplayerVue.case4.menuIconColor"
-                            :menuIconColorActive="WAudioplayerVue.case4.menuIconColorActive"
-                            :itemTextColor="WAudioplayerVue.case4.itemTextColor"
-                            :itemTextColorActive="WAudioplayerVue.case4.itemTextColorActive"
-                            :itemTextColorHover="WAudioplayerVue.case4.itemTextColorHover"
-                            :itemHeightMin="WAudioplayerVue.case4.itemHeightMin"
-                            :itemSeplineColor="WAudioplayerVue.case4.itemSeplineColor"
-                            :scrollBarColor="WAudioplayerVue.case4.scrollBarColor"
-                            :scrollBarColorHover="WAudioplayerVue.case4.scrollBarColorHover"
-                        ></WAudioplayerVue>
                     </div>
 
                 </div>
 
             </div>
+
+            <AppBasic
+                v-if="nowMenu.key==='AppBasic'"
+            ></AppBasic>
+
+            <AppLanguage
+                v-if="nowMenu.key==='AppLanguage'"
+            ></AppLanguage>
+
+            <AppCustomSize
+                v-if="nowMenu.key==='AppCustomSize'"
+            ></AppCustomSize>
+
+            <AppFullSize
+                v-if="nowMenu.key==='AppFullSize'"
+            ></AppFullSize>
+
+            <AppDarkCyan
+                v-if="nowMenu.key==='AppDarkCyan'"
+            ></AppDarkCyan>
+
+            <AppLightPink
+                v-if="nowMenu.key==='AppLightPink'"
+            ></AppLightPink>
 
         </div>
 
@@ -132,148 +103,33 @@
 </template>
 
 <script>
-import WAudioplayerVue from './components/WAudioplayerVue.vue'
+import AppBasic from './AppBasic.vue'
+import AppLanguage from './AppLanguage.vue'
+import AppCustomSize from './AppCustomSize.vue'
+import AppFullSize from './AppFullSize.vue'
+import AppDarkCyan from './AppDarkCyan.vue'
+import AppLightPink from './AppLightPink.vue'
+
 
 export default {
-    name: 'app',
     components: {
-        WAudioplayerVue
+        AppBasic,
+        AppLanguage,
+        AppCustomSize,
+        AppFullSize,
+        AppDarkCyan,
+        AppLightPink,
     },
     data: function() {
-
-        let urlMp3 = 'https://cdn.jsdelivr.net/npm/w-demores@1.0.2/res/audio/'
-
-        let names = [
-            'Ailee_暫別我的愛(demo).mp3',
-            'Aimer_Ninelie(demo).mp3',
-            'Aimer_s-AVE(demo).mp3',
-            'Aimer_Sleepless Nights(demo).mp3',
-            'Aimer_ポラリス(demo).mp3',
-            'Aimer_茜さす(demo).mp3',
-            'A-Lin_月牙灣(夢想的聲音2)(demo).mp3',
-            'A-Lin_幸福太短(demo).mp3',
-            'Amy Chanrich_其實，我就在你方圓幾里(demo).mp3',
-            'Anonymous_螢塚(demo).mp3',
-            'B2ST_Fiction(piano)(demo).mp3',
-            'BAAD_好想大聲叫喜歡你(demo).mp3',
-            'Brian Crain_Wind(demo).mp3',
-            'DAOKO & 米津玄師_打上花火(demo).mp3',
-            'Davichi & Verbal Jint_사랑과 전쟁(融化)(demo).mp3',
-            'GALA樂隊_追夢赤子心(demo).mp3',
-            'HITA_洛陽夜雨(demo).mp3',
-            'I NEED U(piano)(demo).mp3',
-            'Ian_By My Side(demo).mp3',
-            'Jason Chen & Alisa Galper_心動心痛(demo).mp3',
-            'Jason Chen_Senorita(demo).mp3',
-            'Kobasolo & Lefty Hand Cream_No1(demo).mp3',
-        ]
-        let items = names.map((name) => {
-            return {
-                name,
-                url: encodeURI(`${urlMp3}${name}`)
-            }
-        })
-
-        let c2RGB = '120,210,250'
-        let c3RGB = '240,80,150'
-
-        let menuItems = [
-            {
-                name: 'basic',
-                color: '#aaa',
-                backgroundColor: '#2b2b2b',
-                classMode: 'dark',
-            },
-            {
-                name: 'language',
-                color: '#aaa',
-                backgroundColor: '#2b2b2b',
-                classMode: 'dark',
-            },
-            {
-                name: 'custom size',
-                color: '#aaa',
-                backgroundColor: '#2b2b2b',
-                classMode: 'dark',
-            },
-            {
-                name: 'full size',
-                color: '#aaa',
-                backgroundColor: '#2b2b2b',
-                classMode: 'dark',
-            },
-            {
-                name: 'dark cyan',
-                color: '#aaa',
-                backgroundColor: '#3a3a3a',
-                classMode: 'dark',
-            },
-            {
-                name: 'light pink',
-                color: '#444',
-                backgroundColor: '#fff',
-                classMode: 'light',
-            },
-        ]
-
+        let menus = []
+        for (let k in window.kpMenu) {
+            let v = window.kpMenu[k]
+            v.key = k
+            menus.push(v)
+        }
         return {
-            'urlMp3': urlMp3,
-            'nowMenuItem': menuItems[0],
-            'menuItems': menuItems,
-            'WAudioplayerVue': {
-                'itemsAudio': items,
-                'case1': {
-                    //default
-                },
-                'case2': {
-                    textDrop: '拖曳區',
-                    textDropMsg: '請拖曳檔案進瀏覽器內',
-                    textPlayItem: '現正播放',
-                    textWaitUserPlay: '等待您開始播放',
-                    textTitlePlay: '播放',
-                    textTitlePause: '暫停',
-                    textTitleLoop: '循環播放',
-                    textTitleRepeat: '單曲播放',
-                    textTitleRandom: '隨機播放',
-                    textTitleDeleteAll: '刪除全部',
-                },
-                'case3': {
-                    dropTextColor: `#999`,
-                    menuTextColor: `#999`,
-                    textColor: `rgba(${c2RGB},1)`,
-                    backgroundColor: '#222',
-                    barHeight: 4,
-                    barColor: `rgba(${c2RGB},1)`,
-                    barBackgroundColor: `#333`,
-                    menuIconColor: `#555`,
-                    menuIconColorActive: `rgba(${c2RGB},1)`,
-                    itemTextColor: `#777`,
-                    itemTextColorActive: `rgba(${c2RGB},1)`,
-                    itemTextColorHover: `#aaa`,
-                    itemHeightMin: 50,
-                    itemSeplineColor: `#333`,
-                    scrollBarColor: `rgba(255,255,255,0.1)`,
-                    scrollBarColorHover: `rgba(255,255,255,0.2)`,
-                },
-                'case4': {
-                    dropTextColor: `#444`,
-                    menuTextColor: `#aaa`,
-                    textColor: `rgba(${c3RGB},1)`,
-                    backgroundColor: '#fafafa',
-                    barHeight: 6,
-                    barColor: `rgba(${c3RGB},1)`,
-                    barBackgroundColor: `#ddd`,
-                    menuIconColor: `#aaa`,
-                    menuIconColorActive: `rgba(${c3RGB},1)`,
-                    itemTextColor: `#aaa`,
-                    itemTextColorActive: `rgba(${c3RGB},1)`,
-                    itemTextColorHover: `rgba(${c3RGB},0.7)`,
-                    itemHeightMin: 40,
-                    itemSeplineColor: `#dadada`,
-                    scrollBarColor: `rgba(0,0,0,0)`,
-                    scrollBarColorHover: `rgba(0,0,0,0.15)`,
-                },
-            }
+            'nowMenu': window.kpMenu['AppBasic'],
+            'menus': menus,
         }
     },
     computed: {
@@ -283,49 +139,86 @@ export default {
         },
 
     },
+    methods: {
+
+        exam: function(fn) {
+            return 'https://yuda-lyu.github.io/w-audioplayer-vue/examples/' + fn + '.html'
+        },
+
+        code: function(fn) {
+            return 'https://github.com/yuda-lyu/w-audioplayer-vue/blob/master/docs/examples/' + fn + '.html'
+        },
+
+    },
 }
 </script>
 
 <style>
-.panelShadow {
-    box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12);
-}
-.menuItem {
-    transition: all 0.2s linear;
+.menuBasic {
     cursor: pointer;
-    box-sizing: border-box;
+}
+.menuTrans {
+    transition: all 0.2s linear;
+}
+.menuBox {
     padding: 15px;
-    width: 120px;
     font-size: 0.8rem;
 }
-.menuItem-dark {
+
+.menuText-dark {
     color: #aaa;
+    background: transparent;
+}
+.menuText-dark-active {
+    color: #d5f5ad;
+    background: transparent;
+}
+.menuText-dark:hover {
+    color: #d5f5ad;
+    background: #444;
+}
+.menuText-dark-inactive:hover {
+    color: #d5f5ad;
+    background: transparent;
+}
+.menuText-light {
+    color: #444;
+}
+.menuText-light-active {
+    color: #7cce17;
+    background: transparent;
+}
+.menuText-light:hover {
+    color: #7cce17;
+    background: #eee;
+}
+.menuText-light-inactive:hover {
+    color: #7cce17;
+    background: transparent;
+}
+
+.menuBorder-dark {
     border-right: 0px solid #888;
 }
-.menuItem-dark-active {
-    color: #d5f5ad;
+.menuBorder-dark-active {
     border-right: 5px solid rgb(179, 238, 106);
 }
-.menuItem-dark:hover {
-    color: #d5f5ad;
-    background-color: #444;
+.menuBorder-dark:hover {
+    border-right: 0px solid #888;
 }
-.menuItem-dark-inactive:hover {
+.menuBorder-dark-inactive:hover {
     border-right: 5px solid rgba(179, 238, 106, 0.5);
 }
-.menuItem-light {
-    color: #444;
+.menuBorder-light {
     border-right: 0px solid #888;
 }
-.menuItem-light-active {
-    color: #7cce17;
+.menuBorder-light-active {
     border-right: 5px solid rgb(179, 238, 106);
 }
-.menuItem-light:hover {
-    color: #7cce17;
-    background-color: #eee;
+.menuBorder-light:hover {
+    border-right: 0px solid #888;
 }
-.menuItem-light-inactive:hover {
+.menuBorder-light-inactive:hover {
     border-right: 5px solid rgba(179, 238, 106, 0.5);
 }
 </style>

@@ -1,10 +1,11 @@
 <template>
     <WDropfiles
-        :style="`display:inline-block; position:relative; width:100%; height:100%; background-color:${backgroundColor};`"
+        :style="`display:inline-block; position:relative; width:100%; height:100%; background:${backgroundColor};`"
         :borderRadius="0"
         :borderWidth="0"
         :changeItemsAudio="changeItemsAudio"
         @get-files="dropFiles"
+        @drop-error="dropError"
     >
 
         <template v-if="list.length===0">
@@ -13,6 +14,7 @@
                 <div :style="`text-align:center; width:200px; color:${dropTextColor};`">
                     <div>{{textDrop}}</div>
                     <div style="margin-top:5px; font-size:0.8rem; opacity:0.75;">{{textDropMsg}}</div>
+                    <div style="margin-top:5px; font-size:0.8rem; color:#f26;" v-if="textDropError">{{textDropError}}</div>
                 </div>
             </div>
 
@@ -27,14 +29,14 @@
 
                 <div :style="`font-size:0.8rem; display:flex; align-items:center; padding:10px; color:${menuTextColor};`">
                     <div style="white-space:nowrap; padding-right:5px; opacity:0.5;">{{textPlayItem}}:</div>
-                    <input style="background-color:transparent; border:0px; width:100%; color:inherit; font-family:inherit; outline:none;" type="text" spellcheck="false" :value="getPlayingItemName">
+                    <input style="background:transparent; border:0px; width:100%; color:inherit; font-family:inherit; outline:none;" type="text" spellcheck="false" :value="getPlayingItemName">
                 </div>
 
                 <div style="padding:0px 10px 14px 10px;">
                     <div style="display:flex; align-items:center;">
 
-                        <div ref="barPanel" :style="`background-color:${barBackgroundColor}; padding:0px 0px; width:100%; height:${barHeight}px; border-radius:10px; cursor:pointer;`" @click="adSeek">
-                            <div :style="`background-color:${barColor}; width:${barWidth}%; height:${barHeight}px; border-radius:10px;`"></div>
+                        <div ref="barPanel" :style="`background:${barBackgroundColor}; padding:0px 0px; width:100%; height:${barHeight}px; border-radius:10px; cursor:pointer;`" @click="adSeek">
+                            <div :style="`background:${barColor}; width:${barWidth}%; height:${barHeight}px; border-radius:10px;`"></div>
                         </div>
 
                         <div style="padding-left:10px; text-align:center; font-size:0.7rem; letter-spacing:1px; min-height:16px;">
@@ -175,8 +177,13 @@ import WIconSvg from 'w-component-vue/src/components/WIconSvg.vue'
 import WPanelScrolly from 'w-component-vue/src/components/WPanelScrolly.vue'
 
 
+function getFileName(str) {
+    return str.split('\\').pop().split('/').pop()
+}
+
+
 /**
- * @vue-prop {Array} [itemsAudio=[]] 輸入音頻物件陣列，每個物件需有name與url兩欄位，分別提供檔名(含副檔名)與網址，可不給予由使用者拖曳檔案進來組件進行播放
+ * @vue-prop {Array} [items=[]] 輸入音頻物件陣列，每個物件需有name與url兩欄位，分別提供檔名(含副檔名)與網址，可不給予由使用者拖曳檔案進來組件進行播放
  * @vue-prop {String} [dropTextColor='#aaa'] 輸入無播放視窗之提示拖曳文字顏色字串，預設'#aaa'
  * @vue-prop {String} [backgroundColor='#323232'] 輸入背景顏色字串，預設'#323232'
  * @vue-prop {Number} [barHeight=6] 輸入播放進度條高度浮點數，預設6
@@ -193,7 +200,7 @@ import WPanelScrolly from 'w-component-vue/src/components/WPanelScrolly.vue'
  * @vue-prop {String} [scrollBarColor='rgba(200,200,200,0.2)'] 輸入播放項目區右側捲軸顏色字串，預設'rgba(200,200,200,0.2)'
  * @vue-prop {String} [scrollBarColorHover='rgba(200,200,200,0.3)'] 輸入播放項目區右側捲軸顏色字串，預設'rgba(200,200,200,0.3)'
  * @vue-prop {String} [textDrop='Drop zone'] 輸入顯示拖曳文字字串，預設'Drop zone'
- * @vue-prop {String} [textDropMsg='Drag your files and drop them here.'] 輸入顯示拖曳說明文字字串，預設'Drag your files and drop them here.'
+ * @vue-prop {String} [textDropMsg='Drag your files or folders and drop them here.'] 輸入顯示拖曳說明文字字串，預設'Drag your files or folders and drop them here.'
  * @vue-prop {String} [textPlayItem='Now'] 輸入現在正在播放文字字串，預設'Now'
  * @vue-prop {String} [textWaitUserPlay='It's time to play...'] 輸入等待播放文字字串，預設'It's time to play...'
  * @vue-prop {String} [textTitlePlay='Play'] 輸入播放按鈕提示文字字串，預設'Play'
@@ -210,7 +217,7 @@ export default {
         WPanelScrolly,
     },
     props: {
-        itemsAudio: {
+        items: {
             type: Array,
             default: () => [],
         },
@@ -280,7 +287,7 @@ export default {
         },
         textDropMsg: {
             type: String,
-            default: 'Drag your files and drop them here.', //請拖曳檔案進瀏覽器內
+            default: 'Drag your files or folders and drop them here.', //請拖曳檔案或資料夾進瀏覽器內
         },
         textPlayItem: {
             type: String,
@@ -328,7 +335,7 @@ export default {
             mdiReplay,
 
             wh: null,
-            itemsAudioTemp: [], //若有外部傳入播放項目, 進行暫存藉以判斷是否重複觸發change事件
+            itemsTemp: [], //若有外部傳入播放項目, 進行暫存藉以判斷是否重複觸發change事件
             list: [],
             iPlayItem: null,
             cPlayItem: '',
@@ -338,6 +345,8 @@ export default {
             barWidth: 0,
             isScrollTop: true,
             codecs: ['mp3', 'mpeg', 'opus', 'ogg', 'oga', 'wav', 'aac', 'caf', 'm4a', 'mp4', 'weba', 'webm', 'dolby', 'flac'],
+
+            textDropError: null,
 
         }
     },
@@ -376,21 +385,21 @@ export default {
             let vo = this
 
             //items
-            let items = cloneDeep(vo.itemsAudio)
+            let items = cloneDeep(vo.items)
 
             //check eff
-            if (size(vo.itemsAudio) === 0) {
+            if (size(vo.items) === 0) {
                 return ''
             }
 
             //check equal, 切換組件時可能被vue自動快取導致不會重新mounted(機制複雜), 故導致外部傳入的播放項目會多次觸發change事件, 使得播放項目會重複載入
-            if (!isEqual(vo.itemsAudio, vo.itemsAudioTemp)) {
+            if (!isEqual(vo.items, vo.itemsTemp)) {
 
                 //addItems, 其內改用timer脫勾避免被vue做記憶體偵測, 因清空list而重新觸發本change
                 vo.addItems(items, 'urls')
 
                 //save as
-                vo.itemsAudioTemp = cloneDeep(vo.itemsAudio)
+                vo.itemsTemp = cloneDeep(vo.items)
 
             }
 
@@ -647,21 +656,21 @@ export default {
 
         },
 
-        addFiles: function (files) {
-            //console.log('methods addFiles', files)
+        addFiles: function (items) {
+            //console.log('methods addFiles', items)
 
             let vo = this
 
             let list = []
-            each(files, function(file) {
-                let name = file.name
+            each(items, function(item) {
+                let name = item.name
                 let s = split(name, '.')
                 let ext = last(s)
                 let b = arrhas(ext, vo.codecs)
                 if (b) {
-                    let src = URL.createObjectURL(file)
+                    let src = URL.createObjectURL(item.file)
                     list.push({
-                        name: file.name,
+                        name,
                         ext,
                         src,
                         mouseIn: false,
@@ -679,7 +688,7 @@ export default {
 
             let list = []
             each(items, function(item) {
-                let name = item.name
+                let name = getFileName(item.name)
                 let s = split(name, '.')
                 let ext = last(s)
                 let b = arrhas(ext, vo.codecs)
@@ -729,13 +738,26 @@ export default {
 
         },
 
-        dropFiles: function(files) {
-            //console.log('methods dropFiles', files)
+        dropFiles: function({ filesTree }) {
+            // console.log('methods dropFiles', filesTree)
 
             let vo = this
 
+            //textDropError
+            vo.textDropError = null
+
             //addItems, 改用timer會直接往後呼叫cb
-            vo.addItems(files, 'files', true)
+            vo.addItems(filesTree, 'files', true)
+
+        },
+
+        dropError: function(err) {
+            console.log('methods dropError', err)
+
+            let vo = this
+
+            //textDropError
+            vo.textDropError = err
 
         },
 
