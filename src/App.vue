@@ -142,11 +142,11 @@ export default {
     methods: {
 
         exam: function(fn) {
-            return 'https://yuda-lyu.github.io/w-audioplayer-vue/examples/' + fn + '.html'
+            return 'https://yuda-lyu.github.io/w-audioplayer-vue/examples/ex-' + fn + '.html'
         },
 
         code: function(fn) {
-            return 'https://github.com/yuda-lyu/w-audioplayer-vue/blob/master/docs/examples/' + fn + '.html'
+            return 'https://github.com/yuda-lyu/w-audioplayer-vue/blob/master/docs/examples/ex-' + fn + '.html'
         },
 
     },
@@ -154,6 +154,23 @@ export default {
 </script>
 
 <style>
+a:link {
+    color: inherit;
+}
+a:visited {
+    color: inherit;
+}
+a:hover {
+    color: inherit;
+}
+a:active {
+    color: inherit;
+}
+
+.panelShadow {
+    box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+}
+
 .menuBasic {
     cursor: pointer;
 }
