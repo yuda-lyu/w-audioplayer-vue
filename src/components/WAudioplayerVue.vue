@@ -110,7 +110,6 @@
             </div>
 
             <WPanelScrolly
-                ref="wps"
                 style="height:calc(100% - 129px);"
                 :barColor="scrollBarColor"
                 :barColorHover="scrollBarColorHover"
