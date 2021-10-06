@@ -49,5 +49,6 @@ module.exports = {
         'node/no-callback-literal': 'off',
         'prefer-regex-literals': 'off',
         'array-callback-return': 'off',
+        'no-unreachable-loop': 'off',
     }
 };

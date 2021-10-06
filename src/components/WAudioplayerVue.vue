@@ -169,7 +169,7 @@ import pullAt from 'lodash/pullAt'
 import random from 'lodash/random'
 import split from 'lodash/split'
 import last from 'lodash/last'
-import arrhas from 'wsemi/src/arrhas.mjs'
+import arrHas from 'wsemi/src/arrHas.mjs'
 import WHowler from 'w-howler'
 import WDropfiles from 'w-component-vue/src/components/WDropfiles.vue'
 import WIconSvg from 'w-component-vue/src/components/WIconSvg.vue'
@@ -665,7 +665,7 @@ export default {
                 let name = item.name
                 let s = split(name, '.')
                 let ext = last(s)
-                let b = arrhas(ext, vo.codecs)
+                let b = arrHas(ext, vo.codecs)
                 if (b) {
                     let src = URL.createObjectURL(item.file)
                     list.push({
@@ -690,7 +690,7 @@ export default {
                 let name = getFileName(item.name)
                 let s = split(name, '.')
                 let ext = last(s)
-                let b = arrhas(ext, vo.codecs)
+                let b = arrHas(ext, vo.codecs)
                 if (b) {
                     list.push({
                         name,
