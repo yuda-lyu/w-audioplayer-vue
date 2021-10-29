@@ -1,6 +1,6 @@
 {
   "name": "w-audioplayer-vue",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "author": "yuda-lyu(semisphere)",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -12,9 +12,9 @@
   "main": "dist/w-audioplayer-vue.umd.js",
   "dependencies": {
     "lodash": "^4.17.21",
-    "w-component-vue": "^2.1.57",
+    "w-component-vue": "^2.1.58",
     "w-howler": "^1.0.13",
-    "wsemi": "^1.6.19"
+    "wsemi": "^1.6.31"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.12",
