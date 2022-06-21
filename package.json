@@ -1,14 +1,6 @@
 {
   "name": "w-audioplayer-vue",
   "version": "2.0.7",
-  "author": "yuda-lyu(semisphere)",
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "test": "mocha --parallel --timeout 60000 --experimental-modules --es-module-specifier-resolution=node",
-    "deploy": "gh-pages -d docs"
-  },
   "main": "dist/w-audioplayer-vue.umd.js",
   "dependencies": {
     "lodash": "^4.17.21",
@@ -31,6 +23,13 @@
     "@vue/cli-service": "^4.5.13",
     "vue": "^2.6.14",
     "w-package-tools": "^1.0.65"
+  },
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "test": "mocha --parallel --timeout 60000 --experimental-modules --es-module-specifier-resolution=node",
+    "deploy": "gh-pages -d docs"
   },
   "eslintConfig": {
     "root": true,
@@ -55,11 +54,6 @@
     "> 1%",
     "last 2 versions"
   ],
-  "bugs": {
-    "url": "https://github.com/yuda-lyu/w-audioplayer-vue/issues"
-  },
-  "homepage": "https://github.com/yuda-lyu/w-audioplayer-vue#readme",
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yuda-lyu/w-audioplayer-vue.git"
@@ -70,5 +64,7 @@
     "player",
     "howler",
     "vue"
-  ]
+  ],
+  "author": "yuda-lyu(semisphere)",
+  "license": "MIT"
 }

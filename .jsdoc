@@ -3,7 +3,7 @@
         "allowUnknownTags": false
     },
     "source": {
-        "include": ["src/"],
+        "include": ["src/", "server/"],
         "includePattern": ".+\\.(js(doc|x)?|mjs|vue)$",
         "excludePattern": "(node_modules/|docs)"
     },

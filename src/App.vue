@@ -53,7 +53,7 @@
                         <a
                             class="menuTrans"
                             :style="`position:absolute; top:22px; right:10px; z-index:1;`"
-                            title="show codde"
+                            title="show code"
                             :href="code(menu.key)"
                             target="_blank"
                             rel="noopener noreferrer"
