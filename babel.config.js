@@ -7,6 +7,7 @@ module.exports = {
     ],
     'plugins': [
         '@babel/plugin-transform-runtime',
+        '@babel/plugin-syntax-import-assertions',
         '@babel/plugin-proposal-export-default-from',
         '@babel/plugin-proposal-nullish-coalescing-operator',
         '@babel/plugin-proposal-optional-chaining'

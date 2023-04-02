@@ -1,24 +1,24 @@
 module.exports = {
-    "env": {
-        "browser": true,
-        "es6": true,
-        "mocha": true
+    'env': {
+        'browser': true,
+        'es6': true,
+        'mocha': true
     },
-    "extends": ["plugin:vue/base", "plugin:vue/essential", "standard"],
-    "plugins": [
-        "vue"
+    'extends': ['plugin:vue/base', 'plugin:vue/essential', 'standard'],
+    'plugins': [
+        'vue'
     ],
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+    'globals': {
+        'Atomics': 'readonly',
+        'SharedArrayBuffer': 'readonly'
     },
-    "parser": "vue-eslint-parser",
-    "parserOptions": {
-        "parser": "babel-eslint",
-        "ecmaVersion": 2019,
-        "sourceType": "module",
+    'parser': 'vue-eslint-parser',
+    'parserOptions': {
+        'parser': '@babel/eslint-parser',
+        'ecmaVersion': 2019,
+        'sourceType': 'module',
     },
-    rules: {
+    'rules': {
         'generator-star-spacing': 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'indent': ['error', 4],
@@ -51,4 +51,4 @@ module.exports = {
         'array-callback-return': 'off',
         'no-unreachable-loop': 'off',
     }
-};
+}
