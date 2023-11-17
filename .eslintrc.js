@@ -50,5 +50,6 @@ module.exports = {
         'prefer-regex-literals': 'off',
         'array-callback-return': 'off',
         'no-unreachable-loop': 'off',
+        'vue/multi-word-component-names': 'off',
     }
 }

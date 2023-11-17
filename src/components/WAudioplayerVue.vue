@@ -49,7 +49,7 @@
                 <div style="padding:0px 12px 15px 12px;">
                     <div style="display:flex; align-items:center; justify-content:space-between;">
                         <div style="margin-right:5px; cursor:pointer;">
-                            <WIconSvg
+                            <WIcon
                                 :title="textTitlePause"
                                 :path="mdiPauseCircleOutline"
                                 :size="40"
@@ -57,8 +57,8 @@
                                 :colorHover="menuIconColorActive"
                                 v-if="cPlayMode==='play'"
                                 @click.native="adPause"
-                            ></WIconSvg>
-                            <WIconSvg
+                            ></WIcon>
+                            <WIcon
                                 :title="textTitlePlay"
                                 :path="mdiPlayCircleOutline"
                                 :size="40"
@@ -66,43 +66,43 @@
                                 :colorHover="menuIconColorActive"
                                 v-if="cPlayMode==='pause' || cPlayMode==='stop'"
                                 @click.native="if(cPlayMode==='pause'){adResume()}else{adPlay(0)}"
-                            ></WIconSvg>
+                            ></WIcon>
                         </div>
                         <div :style="`margin-right:5px; ${cPlayNextMode==='loop'?'':'cursor:pointer'}`" :title="textTitleLoop">
-                            <WIconSvg
+                            <WIcon
                                 :path="mdiSortDescending"
                                 :size="22"
                                 :color="cPlayNextMode==='loop'?menuIconColorActive:menuIconColor"
                                 :colorHover="menuIconColorActive"
                                 @click.native="cPlayNextMode='loop'"
-                            ></WIconSvg>
+                            ></WIcon>
                         </div>
                         <div :style="`margin-right:5px; ${cPlayNextMode==='repeat'?'':'cursor:pointer'}`" :title="textTitleRepeat">
-                            <WIconSvg
+                            <WIcon
                                 :path="mdiReplay"
                                 :size="22"
                                 :color="cPlayNextMode==='repeat'?menuIconColorActive:menuIconColor"
                                 :colorHover="menuIconColorActive"
                                 @click.native="cPlayNextMode='repeat'"
-                            ></WIconSvg>
+                            ></WIcon>
                         </div>
                         <div :style="`margin-right:5px; ${cPlayNextMode==='random'?'':'cursor:pointer'}`" :title="textTitleRandom">
-                            <WIconSvg
+                            <WIcon
                                 :path="mdiShoePrint"
                                 :size="22"
                                 :color="cPlayNextMode==='random'?menuIconColorActive:menuIconColor"
                                 :colorHover="menuIconColorActive"
                                 @click.native="cPlayNextMode='random'"
-                            ></WIconSvg>
+                            ></WIcon>
                         </div>
                         <div style="margin-right:5px; cursor:pointer;" :title="textTitleDeleteAll">
-                            <WIconSvg
+                            <WIcon
                                 :path="mdiDelete"
                                 :size="22"
                                 :color="menuIconColor"
                                 :colorHover="menuIconColorActive"
                                 @click.native="deleteAllItems"
-                            ></WIconSvg>
+                            ></WIcon>
                         </div>
                     </div>
                 </div>
@@ -139,14 +139,14 @@
                             <td
                                 :style="`border-bottom:1px solid ${itemSeplineColor}; padding-left:13px; padding-right:19px; user-select:none;`"
                             >
-                                <WIconSvg
+                                <WIcon
                                     style="cursor:pointer;"
                                     :path="mdiTrashCanOutline"
                                     :size="17"
                                     :color="`${iPlayItem===kitem?itemTextColorActive:itemTextColor}`"
                                     :colorHover="`${iPlayItem===kitem?itemTextColorActive:itemTextColorHover}`"
                                     @click.native="deleteItem(kitem)"
-                                ></WIconSvg>
+                                ></WIcon>
                             </td>
                         </tr>
                     </tbody>
@@ -172,7 +172,7 @@ import last from 'lodash/last'
 import arrHas from 'wsemi/src/arrHas.mjs'
 import WHowler from 'w-howler'
 import WDropfiles from 'w-component-vue/src/components/WDropfiles.vue'
-import WIconSvg from 'w-component-vue/src/components/WIconSvg.vue'
+import WIcon from 'w-component-vue/src/components/WIcon.vue'
 import WPanelScrolly from 'w-component-vue/src/components/WPanelScrolly.vue'
 
 
@@ -212,7 +212,7 @@ function getFileName(str) {
 export default {
     components: {
         WDropfiles,
-        WIconSvg,
+        WIcon,
         WPanelScrolly,
     },
     props: {
