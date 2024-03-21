@@ -6,6 +6,7 @@ An audio player by howler.
 [![npm version](http://img.shields.io/npm/v/w-audioplayer-vue.svg?style=flat)](https://npmjs.org/package/w-audioplayer-vue) 
 [![gzip file size](http://img.badgesize.io/yuda-lyu/w-audioplayer-vue/master/dist/w-audioplayer-vue.umd.js.svg?compression=gzip)](https://github.com/yuda-lyu/w-audioplayer-vue)
 [![npm download](https://img.shields.io/npm/dt/w-audioplayer-vue.svg)](https://npmjs.org/package/w-audioplayer-vue) 
+[![npm download](https://img.shields.io/npm/dm/w-audioplayer-vue.svg)](https://npmjs.org/package/w-audioplayer-vue) 
 [![jsdelivr download](https://img.shields.io/jsdelivr/npm/hm/w-audioplayer-vue.svg)](https://www.jsdelivr.com/package/npm/w-audioplayer-vue)
 
 ## Documentation
@@ -42,7 +43,7 @@ Vue.component('w-audioplayer-vue', WAudioplayerVue)
 ```
 [Necessary] Add script for w-audioplayer-vue.
 ```alias
-<script src="https://cdn.jsdelivr.net/npm/w-audioplayer-vue@2.0.10/dist/w-audioplayer-vue.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/w-audioplayer-vue@2.0.11/dist/w-audioplayer-vue.umd.js"></script>
 ```
 Directly use:
 ```alias

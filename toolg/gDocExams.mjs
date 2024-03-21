@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from 'lodash-es'
 import fs from 'fs'
 import getFiles from 'w-package-tools/src/getFiles.mjs'
 import getPks from 'w-package-tools/src/getPks.mjs'
