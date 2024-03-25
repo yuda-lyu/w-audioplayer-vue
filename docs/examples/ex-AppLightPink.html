@@ -7,7 +7,7 @@
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>example for AppLanguage</title>
+    <title>example for AppLightPink</title>
 
     <!-- @babel/polyfill -->
     <script
@@ -21,7 +21,7 @@
     <!-- extractHtml已自動添加@babel/polyfill與vue -->
 
     <!-- w-audioplayer-vue -->
-    <script src="../dist/w-audioplayer-vue.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/w-audioplayer-vue@2.0.12/dist/w-audioplayer-vue.umd.js"></script>
 
     <!-- data -->
     <script>
@@ -171,16 +171,22 @@
                 <div class="panelShadow" style="width:400px; height:600px;">
                     <w-audioplayer-vue
                         :items="items"
-                        :text-drop="opt.textDrop"
-                        :text-drop-msg="opt.textDropMsg"
-                        :text-play-item="opt.textPlayItem"
-                        :text-wait-user-play="opt.textWaitUserPlay"
-                        :text-title-play="opt.textTitlePlay"
-                        :text-title-pause="opt.textTitlePause"
-                        :text-title-loop="opt.textTitleLoop"
-                        :text-title-repeat="opt.textTitleRepeat"
-                        :text-title-random="opt.textTitleRandom"
-                        :text-title-delete-all="opt.textTitleDeleteAll"
+                        :drop-text-color="opt.dropTextColor"
+                        :menu-text-color="opt.menuTextColor"
+                        :text-color="opt.textColor"
+                        :background-color="opt.backgroundColor"
+                        :bar-height="opt.barHeight"
+                        :bar-color="opt.barColor"
+                        :bar-background-color="opt.barBackgroundColor"
+                        :menu-icon-color="opt.menuIconColor"
+                        :menu-icon-color-active="opt.menuIconColorActive"
+                        :item-text-color="opt.itemTextColor"
+                        :item-text-color-active="opt.itemTextColorActive"
+                        :item-text-color-hover="opt.itemTextColorHover"
+                        :item-height-min="opt.itemHeightMin"
+                        :item-sepline-color="opt.itemSeplineColor"
+                        :scroll-bar-color="opt.scrollBarColor"
+                        :scroll-bar-color-hover="opt.scrollBarColorHover"
                     ></w-audioplayer-vue>
                 </div>
 
@@ -200,8 +206,8 @@
     data: function() {
       return {
         items: window.items,
-        opt: window.kpOpt["AppLanguage"],
-        backgroundColor: window.kpMenu["AppLanguage"].backgroundColor
+        opt: window.kpOpt["AppLightPink"],
+        backgroundColor: window.kpMenu["AppLightPink"].backgroundColor
       };
     },
     mounted: function() {
