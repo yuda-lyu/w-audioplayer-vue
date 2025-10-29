@@ -17,9 +17,9 @@
         </div>
 
 
-        <div style="width:100%; height:100vh; display:flex; align-items:flex-start; justify-content:flex-start;">
+        <div style="width:100%; height:100svh; display:flex; align-items:flex-start; justify-content:flex-start;">
 
-            <div :style="`width:160px; height:100vh; border-right:1px solid rgba(150,150,150,0.5); background:${nowMenu.backgroundColor};`">
+            <div :style="`width:160px; height:100svh; border-right:1px solid rgba(150,150,150,0.5); background:${nowMenu.backgroundColor};`">
                 <div
                     class="menuBasic"
                     style="position:relative;"

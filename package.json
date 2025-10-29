@@ -27,7 +27,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test": "mocha --parallel --timeout 60000 --experimental-modules --es-module-specifier-resolution=node",
+    "test": "mocha --parallel --timeout 60000",
     "deploy": "gh-pages -d docs"
   },
   "eslintConfig": {

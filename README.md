@@ -4,7 +4,6 @@ An audio player by howler.
 ![language](https://img.shields.io/badge/language-JavaScript-orange.svg) 
 [![language](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://github.com/vuejs/vue) 
 [![npm version](http://img.shields.io/npm/v/w-audioplayer-vue.svg?style=flat)](https://npmjs.org/package/w-audioplayer-vue) 
-[![gzip file size](http://img.badgesize.io/yuda-lyu/w-audioplayer-vue/master/dist/w-audioplayer-vue.umd.js.svg?compression=gzip)](https://github.com/yuda-lyu/w-audioplayer-vue)
 [![npm download](https://img.shields.io/npm/dt/w-audioplayer-vue.svg)](https://npmjs.org/package/w-audioplayer-vue) 
 [![npm download](https://img.shields.io/npm/dm/w-audioplayer-vue.svg)](https://npmjs.org/package/w-audioplayer-vue) 
 [![jsdelivr download](https://img.shields.io/jsdelivr/npm/hm/w-audioplayer-vue.svg)](https://www.jsdelivr.com/package/npm/w-audioplayer-vue)
@@ -18,8 +17,8 @@ To view some examples for more understanding, visit examples:
 > **all examples:** [web](https://yuda-lyu.github.io/w-audioplayer-vue/examples/app.html) [[source code](https://github.com/yuda-lyu/w-audioplayer-vue/blob/master/docs/examples/app.html)]
 
 ## Installation
+
 ### Using npm(ES6 module):
-> **Note:** w-audioplayer-vue is mainly dependent on `w-howler` .
 ```alias
 npm i w-audioplayer-vue
 ```
@@ -35,13 +34,13 @@ Vue.component('w-audioplayer-vue', WAudioplayerVue)
 ```
 
 ### In a browser(UMD module):
-> **Note:** w-audioplayer-vue is mainly dependent on `vue`.
 
-[Necessary] Add script for vue.
+Add script for vue.
 ```alias
 <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.min.js"></script>
 ```
-[Necessary] Add script for w-audioplayer-vue.
+
+Add script for w-audioplayer-vue.
 ```alias
 <script src="https://cdn.jsdelivr.net/npm/w-audioplayer-vue@2.0.12/dist/w-audioplayer-vue.umd.js"></script>
 ```
