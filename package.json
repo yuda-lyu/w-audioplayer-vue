@@ -1,11 +1,11 @@
 {
   "name": "w-audioplayer-vue",
-  "version": "2.0.22",
+  "version": "2.0.23",
   "main": "dist/w-audioplayer-vue.umd.js",
   "dependencies": {
-    "w-component-vue": "^2.4.82",
+    "w-component-vue": "^2.4.83",
     "w-howler": "^1.0.24",
-    "wsemi": "^1.8.75"
+    "wsemi": "^1.8.76"
   },
   "devDependencies": {
     "eslint": "^8.37.0",
