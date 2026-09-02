@@ -42,7 +42,7 @@ Add script for vue.
 
 Add script for w-audioplayer-vue.
 ```alias
-<script src="https://cdn.jsdelivr.net/npm/w-audioplayer-vue@2.0.31/dist/w-audioplayer-vue.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/w-audioplayer-vue@2.0.32/dist/w-audioplayer-vue.umd.js"></script>
 ```
 Directly use:
 ```alias
