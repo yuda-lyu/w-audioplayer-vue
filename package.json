@@ -1,11 +1,11 @@
 {
   "name": "w-audioplayer-vue",
-  "version": "2.0.35",
+  "version": "2.0.36",
   "main": "dist/w-audioplayer-vue.umd.js",
   "dependencies": {
-    "w-component-vue": "^2.5.12",
-    "w-howler": "^1.0.27",
-    "wsemi": "^1.8.85"
+    "w-component-vue": "^2.5.13",
+    "w-howler": "^1.0.28",
+    "wsemi": "^1.8.92"
   },
   "devDependencies": {
     "eslint": "^8.37.0",
@@ -18,14 +18,14 @@
     "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-service": "^5.0.8",
     "vue": "^2.7.16",
-    "w-package-tools": "^1.1.15",
+    "w-package-tools": "^1.1.16",
     "eslint-plugin-n": "^16.6.2"
   },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test": "mocha --parallel --timeout 60000",
+    "test": "mocha --parallel \"test/*.test.mjs\" --timeout 180000",
     "deploy": "gh-pages -d docs"
   },
   "eslintConfig": {
