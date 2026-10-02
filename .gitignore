@@ -1,4 +1,5 @@
 node_modules
+test/_tmp
 .agents
 CLAUDE*.md
 AGENTS*.md
