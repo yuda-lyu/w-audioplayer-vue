@@ -1,11 +1,11 @@
 {
   "name": "w-audioplayer-vue",
-  "version": "2.0.53",
+  "version": "2.0.54",
   "main": "dist/w-audioplayer-vue.umd.js",
   "dependencies": {
-    "w-component-vue": "^2.5.46",
-    "w-howler": "^1.0.32",
-    "wsemi": "^1.9.55"
+    "w-component-vue": "^2.5.47",
+    "w-howler": "^1.0.33",
+    "wsemi": "^1.9.56"
   },
   "devDependencies": {
     "eslint": "^8.37.0",
@@ -18,7 +18,7 @@
     "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-service": "^5.0.8",
     "vue": "^2.7.16",
-    "w-package-tools": "^1.1.25",
+    "w-package-tools": "^1.1.26",
     "eslint-plugin-n": "^16.6.2"
   },
   "scripts": {
