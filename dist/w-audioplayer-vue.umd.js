@@ -1,5 +1,5 @@
 /*!
- * w-audioplayer-vue v2.0.63
+ * w-audioplayer-vue v2.0.64
  * (c) 2018-2021 yuda-lyu(semisphere)
  * Released under the MIT License.
  */
